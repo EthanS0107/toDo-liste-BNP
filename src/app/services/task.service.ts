@@ -21,4 +21,20 @@ export class TaskService {
 
   // Signal en lecture seule exposant les tâches à d'autres parties de l'application.
   readonly tasks = this.tasksSignal.asReadonly();
+
+  // Signal calculé pour obtenir le nombre total de tâches.
+  readonly total = computed(() => this.tasks().length);
+
+  // Signal calculé pour obtenir diverses statistiques sur les tâches.
+  readonly stats = computed(() => {
+    const list = this.tasks(); // Récupère la liste actuelle des tâches
+    const now = new Date(); // Date et heure actuelles
+
+    return {
+      todo: list.filter((t) => t.status === 'todo').length, // Nombre de tâches avec le statut 'todo'
+      inProgress: list.filter((t) => t.status === 'in-progress').length, // Nombre de tâches en cours
+      done: list.filter((t) => t.status === 'done').length, // Nombre de tâches terminées
+      overdue: list.filter((t) => t.status !== 'done' && t.dueDate && t.dueDate < now).length, // Nombre de tâches en retard
+    };
+  });
 }
