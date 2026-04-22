@@ -1,8 +1,16 @@
 <div>
   <nav>
     <div>
-      <a routerLink="/tasks">Liste des tâches</a>
+      <strong>{{ title() }}</strong>
     </div>
+    <ul>
+      <li>
+        <a routerLink="/tasks" routerLinkActive="active">Liste des tâches</a>
+      </li>
+      <li>
+        <a routerLink="/tasks/new" routerLinkActive="active">Nouvelle tâche</a>
+      </li>
+    </ul>
   </nav>
 
   <main>

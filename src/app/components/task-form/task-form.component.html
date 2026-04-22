@@ -1,0 +1,4 @@
+<form (submit)="$event.preventDefault(); submit()">
+  <app-priority-picker [(value)]="priority" />
+  <button type="submit" [disabled]="!title()">Enregistrer</button>
+</form>

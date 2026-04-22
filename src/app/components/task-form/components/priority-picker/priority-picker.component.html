@@ -1,0 +1,7 @@
+<div class="priority-container">
+  @for (p of priorities; track p) {
+    <button type="button" [class.active]="value() === p" (click)="value.set(p)">
+      {{ p }}
+    </button>
+  }
+</div>
