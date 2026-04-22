@@ -1,0 +1,63 @@
+<div [class.overdue]="isOverdue()">
+  <!-- En-tête : Titre et Priorité -->
+  <div>
+    <h3 [class.done]="task().status === 'done'">
+      {{ task().title }}
+    </h3>
+    <span>
+      <span></span>
+      {{ priorityLabel() }}
+    </span>
+  </div>
+
+  <!-- Description -->
+  <p>
+    {{ task().description }}
+  </p>
+
+  <!-- Méta-informations : Catégorie, Date, Statut -->
+  <div>
+    <!-- Statut (Badge) -->
+    <span>
+      {{ statusLabel() }}
+    </span>
+
+    <!-- Catégorie -->
+    @if (category()) {
+    <span>
+      <span [style.backgroundColor]="category()?.color"></span>
+      {{ category()?.name }}
+    </span>
+    }
+
+    <!-- Date d'échéance (relative / overdue) -->
+    @if (task().dueDate) {
+    <span [class.overdue-text]="isOverdue()">
+      {{ relativeDueDate() }}
+      @if (isOverdue()) {
+      <span>(En retard)</span>
+      }
+    </span>
+    }
+  </div>
+
+  <!-- Actions -->
+  <div>
+    <!-- Bouton pour changer de statut -->
+    @if (task().status !== 'done') {
+    <button (click)="onStatusChange('done')" title="Marquer comme terminé">
+      Marquer comme terminé
+    </button>
+    }
+
+    <!-- Bouton Modifier -->
+    <button (click)="onEdit()" title="Modifier">
+      Modifier
+    </button>
+
+    <!-- Bouton Supprimer -->
+    <button (click)="onDelete()" title="Supprimer">
+      Supprimer
+    </button>
+  </div>
+</div>
