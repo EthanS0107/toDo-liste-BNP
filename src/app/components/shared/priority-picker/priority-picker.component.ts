@@ -1,5 +1,5 @@
 import { Component, model } from '@angular/core';
-import { TaskPriority } from '../../../../models/task.model';
+import { TaskPriority } from '../../../models/task.model';
 
 @Component({
   selector: 'app-priority-picker',
