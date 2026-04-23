@@ -1,0 +1,12 @@
+<div class="task-list">
+  @for (task of tasks(); track task.id) {
+    <app-task-card
+      [task]="task"
+      (deleted)="taskDeleted.emit($event)"
+      (edited)="taskEdited.emit($event)"
+      (statusChanged)="taskStatusChanged.emit($event)"
+    />
+  } @empty {
+    <p>Aucune tâche pour le moment.</p>
+  }
+</div>
