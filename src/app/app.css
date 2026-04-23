@@ -1,0 +1,12 @@
+/* Styles principaux de l'app */
+:host {
+  display: block;
+  height: 100%;
+}
+
+main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+  min-height: calc(100vh - 64px);
+}

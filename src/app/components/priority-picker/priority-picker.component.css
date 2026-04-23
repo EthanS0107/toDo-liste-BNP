@@ -1,9 +1,30 @@
-.active {
-  background-color: blue;
-  color: white;
+/* Conteneur du sélecteur de priorité */
+.priority-container {
+  display: flex;
+  gap: 0.75rem;
+  padding: 0.5rem 0;
+  flex-wrap: wrap;
 }
+
 button {
-  margin: 5px;
-  padding: 10px;
+  padding: 0.65rem 1rem;
+  border: 1.5px solid var(--color-gray-300);
+  background-color: white;
+  color: var(--color-gray-700);
+  border-radius: 4px;
+  font-size: 0.9rem;
+  font-weight: 500;
   cursor: pointer;
+  transition: all 0.2s;
+}
+
+button:hover {
+  border-color: var(--color-primary);
+  background-color: rgba(0, 150, 94, 0.05);
+}
+
+button.active {
+  background-color: var(--color-primary);
+  color: white;
+  border-color: var(--color-primary);
 }
