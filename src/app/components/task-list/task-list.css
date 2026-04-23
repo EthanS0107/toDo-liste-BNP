@@ -1,0 +1,14 @@
+/* Conteneur de la liste */
+:host {
+  display: block;
+  width: 100%;
+}
+
+/* Message vide */
+p {
+  text-align: center;
+  color: var(--color-gray-400);
+  padding: 2rem 1rem;
+  font-style: italic;
+  font-size: 0.95rem;
+}
