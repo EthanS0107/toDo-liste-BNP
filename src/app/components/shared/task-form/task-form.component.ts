@@ -1,6 +1,7 @@
 import { Component, input, output, signal, effect, model } from '@angular/core';
-import { Task, TaskPriority, TaskStatus } from '../../models/task.model';
-import { PriorityPickerComponent } from './components/priority-picker/priority-picker.component';
+import { Task } from '../../../models/task.model';
+import { PriorityPickerComponent } from '../priority-picker/priority-picker.component';
+import { TaskPriority, TaskStatus } from '../../../models/task.model';
 
 @Component({
   selector: 'app-task-form',
