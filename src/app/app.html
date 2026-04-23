@@ -1,19 +1,5 @@
-<div>
-  <nav>
-    <div>
-      <strong>{{ title() }}</strong>
-    </div>
-    <ul>
-      <li>
-        <a routerLink="/tasks" routerLinkActive="active">Liste des tâches</a>
-      </li>
-      <li>
-        <a routerLink="/tasks/new" routerLinkActive="active">Nouvelle tâche</a>
-      </li>
-    </ul>
-  </nav>
+<app-header />
 
-  <main>
-    <router-outlet />
-  </main>
-</div>
+<main>
+  <router-outlet />
+</main>

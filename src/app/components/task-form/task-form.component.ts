@@ -1,7 +1,6 @@
-import { Component, input, output, signal, effect, model } from '@angular/core';
-import { Task } from '../../models/task.model';
+import { Component, input, output, signal, effect } from '@angular/core';
+import { Task, TaskPriority, TaskStatus } from '../../models/task.model';
 import { PriorityPickerComponent } from '../priority-picker/priority-picker.component';
-import { TaskPriority, TaskStatus } from '../../models/task.model';
 
 @Component({
   selector: 'app-task-form',
@@ -14,7 +13,7 @@ export class TaskFormComponent {
   initialTask = input<Task | null>(null);
 
   // On envoie un signal quand on a fini ou annulé
-  saved = output<any>();
+  saved = output<Partial<Task>>();
   cancelled = output<void>();
 
   // Chaque signal correspond à une case vide au début

@@ -27,57 +27,56 @@ export class TaskService {
 
   // Signal calculé pour obtenir diverses statistiques sur les tâches.
   readonly stats = computed(() => {
-    const list = this.tasks(); // Récupère la liste actuelle des tâches
-    const now = new Date(); // Date et heure actuelles
+    const list = this.tasks();
+    const now = new Date();
 
     return {
-      todo: list.filter((t) => t.status === 'todo').length, // Nombre de tâches avec le statut 'todo'
-      inProgress: list.filter((t) => t.status === 'in-progress').length, // Nombre de tâches en cours
-      done: list.filter((t) => t.status === 'done').length, // Nombre de tâches terminées
-      overdue: list.filter((t) => t.status !== 'done' && t.dueDate && t.dueDate < now).length, // Nombre de tâches en retard
+      todo: list.filter((t) => t.status === 'todo').length,
+      inProgress: list.filter((t) => t.status === 'in-progress').length,
+      done: list.filter((t) => t.status === 'done').length,
+      overdue: list.filter((t) => t.status !== 'done' && t.dueDate && t.dueDate < now).length,
     };
   });
 
   // Méthode pour ajouter une nouvelle tâche à la liste.
+  // Le spread ...taskData est placé EN PREMIER pour que les valeurs explicites ci-dessous
+  // (status, id, dates) ne puissent pas être écrasées par les données entrantes.
   addTask(taskData: Partial<Task>) {
     const newTask: Task = {
+      ...taskData,
       id: crypto.randomUUID(),
       title: taskData.title || 'Sans titre',
       description: taskData.description || '',
       status: 'todo',
       priority: taskData.priority || 'medium',
       categoryId: taskData.categoryId || 'default',
-      dueDate: taskData.dueDate || null,
+      dueDate: taskData.dueDate ?? null,
       createdAt: new Date(),
       updatedAt: new Date(),
-      ...taskData,
     };
 
-    // Met à jour le signal des tâches en ajoutant la nouvelle tâche à la liste.
-    this.tasksSignal.update((currentTasks) => [...currentTasks, newTask]);
+    this.tasksSignal.update((tasks) => [...tasks, newTask]);
   }
 
   // Méthode pour mettre à jour une tâche existante par son ID.
   updateTask(id: string, updates: Partial<Task>) {
-    this.tasksSignal.update((currentTasks) =>
-      currentTasks.map(
-        (task) => (task.id === id ? { ...task, ...updates, updatedAt: new Date() } : task), // Met à jour la tâche si l'ID correspond
-      ),
+    this.tasksSignal.update((tasks) =>
+      tasks.map((task) => (task.id === id ? { ...task, ...updates, updatedAt: new Date() } : task)),
     );
   }
 
   // Méthode pour supprimer une tâche par son ID.
   deleteTask(id: string) {
-    this.tasksSignal.update((currentTasks) => currentTasks.filter((task) => task.id !== id)); // Supprime la tâche avec l'ID donné
+    this.tasksSignal.update((tasks) => tasks.filter((task) => task.id !== id));
   }
 
   // Méthode pour mettre à jour le statut d'une tâche par son ID.
   updateStatus(id: string, newStatus: TaskStatus) {
-    this.updateTask(id, { status: newStatus }); // Réutilise la méthode updateTask pour changer le statut
+    this.updateTask(id, { status: newStatus });
   }
 
   // Méthode pour récupérer une tâche par son ID.
   getTaskById(id: string) {
-    return this.tasks().find((t) => t.id === id); // Trouve et retourne la tâche avec l'ID donné
+    return this.tasks().find((t) => t.id === id);
   }
 }
