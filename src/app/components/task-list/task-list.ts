@@ -9,10 +9,13 @@ import { TaskCard } from '../task-card/task-card';
   templateUrl: './task-list.html',
 })
 export class TaskList {
-  // API
+  // Liste des tâches à afficher
   tasks = input.required<Task[]>();
+
+  // Liste des catégories pour faire le lien avec les tâches
   categories = input<Category[]>([]);
 
+  // Événements émis vers le parent
   taskDeleted = output<string>();
   taskEdited = output<Task>();
   taskStatusChanged = output<{ id: string; status: TaskStatus }>();
