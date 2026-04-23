@@ -14,7 +14,13 @@ import { TaskStatus, Task } from '../../models/task.model';
         <div class="stats">
           <span class="stat-item"><strong>Total:</strong> {{ taskService.total() }}</span>
           <span class="stat-item"><strong>À faire:</strong> {{ taskService.stats().todo }}</span>
-          <span class="stat-item"><strong>En retard:</strong> {{ taskService.stats().overdue }}</span>
+          <span class="stat-item"
+            ><strong>En cours:</strong> {{ taskService.stats().inProgress }}</span
+          >
+          <span class="stat-item"><strong>Terminées:</strong> {{ taskService.stats().done }}</span>
+          <span class="stat-item"
+            ><strong>En retard:</strong> {{ taskService.stats().overdue }}</span
+          >
         </div>
       </div>
 
@@ -26,7 +32,7 @@ import { TaskStatus, Task } from '../../models/task.model';
       />
     </div>
   `,
-  styleUrls: ['./tasks-page.component.css']
+  styleUrls: ['./tasks-page.component.css'],
 })
 export class TasksPage {
   taskService = inject(TaskService);
