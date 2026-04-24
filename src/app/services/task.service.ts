@@ -1,82 +1,98 @@
-import { Injectable, signal, computed } from '@angular/core';
+import { Injectable, signal, computed, effect } from '@angular/core';
 import { Task, TaskStatus } from '../models/task.model';
+import { Category, DEFAULT_CATEGORIES } from '../models/category.model';
 
-// Le décorateur @Injectable indique que cette classe est un service pouvant être injecté dans d'autres composants ou services.
+const STORAGE_KEY = 'bnp-todo-tasks';
+
 @Injectable({ providedIn: 'root' })
 export class TaskService {
-  // Signal privé pour stocker la liste des tâches. Les Signals sont utilisés pour gérer l'état réactif dans Angular.
-  private tasksSignal = signal<Task[]>([
-    {
-      id: '1',
-      title: 'Ma première tâche',
-      description: 'Découvrir les Signals',
-      status: 'todo',
-      priority: 'medium',
-      categoryId: 'cat1',
-      dueDate: null,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    },
-  ]);
+  private tasksSignal = signal<Task[]>(this.loadFromStorage());
 
-  // Signal en lecture seule exposant les tâches à d'autres parties de l'application.
   readonly tasks = this.tasksSignal.asReadonly();
+  readonly categories = signal<Category[]>(DEFAULT_CATEGORIES).asReadonly();
 
-  // Signal calculé pour obtenir le nombre total de tâches.
   readonly total = computed(() => this.tasks().length);
 
-  // Signal calculé pour obtenir diverses statistiques sur les tâches.
   readonly stats = computed(() => {
     const list = this.tasks();
     const now = new Date();
-
     return {
       todo: list.filter((t) => t.status === 'todo').length,
       inProgress: list.filter((t) => t.status === 'in-progress').length,
       done: list.filter((t) => t.status === 'done').length,
-      overdue: list.filter((t) => t.status !== 'done' && t.dueDate && t.dueDate < now).length,
+      overdue: list.filter((t) => t.status !== 'done' && t.dueDate && new Date(t.dueDate) < now)
+        .length,
     };
   });
 
-  // Méthode pour ajouter une nouvelle tâche à la liste.
-  // Le spread ...taskData est placé EN PREMIER pour que les valeurs explicites ci-dessous
-  // (status, id, dates) ne puissent pas être écrasées par les données entrantes.
+  constructor() {
+    // Persistance automatique dès qu'une tâche change
+    effect(() => {
+      const list = this.tasksSignal();
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+      } catch {
+        // stockage indisponible, on ignore
+      }
+    });
+  }
+
+  getCategoryById(id: string): Category | null {
+    return this.categories().find((c) => c.id === id) ?? null;
+  }
+
   addTask(taskData: Partial<Task>) {
     const newTask: Task = {
-      ...taskData,
       id: crypto.randomUUID(),
-      title: taskData.title || 'Sans titre',
-      description: taskData.description || '',
-      status: 'todo',
-      priority: taskData.priority || 'medium',
-      categoryId: taskData.categoryId || 'default',
+      title: taskData.title?.trim() || 'Sans titre',
+      description: taskData.description ?? '',
+      status: taskData.status ?? 'todo',
+      priority: taskData.priority ?? 'medium',
+      categoryId: taskData.categoryId ?? '',
       dueDate: taskData.dueDate ?? null,
       createdAt: new Date(),
       updatedAt: new Date(),
     };
-
     this.tasksSignal.update((tasks) => [...tasks, newTask]);
   }
 
-  // Méthode pour mettre à jour une tâche existante par son ID.
   updateTask(id: string, updates: Partial<Task>) {
     this.tasksSignal.update((tasks) =>
-      tasks.map((task) => (task.id === id ? { ...task, ...updates, updatedAt: new Date() } : task)),
+      tasks.map((t) => (t.id === id ? { ...t, ...updates, updatedAt: new Date() } : t)),
     );
   }
 
-  // Méthode pour supprimer une tâche par son ID.
   deleteTask(id: string) {
-    this.tasksSignal.update((tasks) => tasks.filter((task) => task.id !== id));
+    this.tasksSignal.update((tasks) => tasks.filter((t) => t.id !== id));
   }
 
-  // Méthode pour mettre à jour le statut d'une tâche par son ID.
   updateStatus(id: string, newStatus: TaskStatus) {
     this.updateTask(id, { status: newStatus });
   }
 
-  // Méthode pour récupérer une tâche par son ID.
-  getTaskById(id: string) {
+  toggleDone(id: string) {
+    const task = this.getTaskById(id);
+    if (!task) return;
+    this.updateStatus(id, task.status === 'done' ? 'todo' : 'done');
+  }
+
+  getTaskById(id: string): Task | undefined {
     return this.tasks().find((t) => t.id === id);
+  }
+
+  private loadFromStorage(): Task[] {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return [];
+      const parsed = JSON.parse(raw) as Task[];
+      return parsed.map((t) => ({
+        ...t,
+        dueDate: t.dueDate ? new Date(t.dueDate) : null,
+        createdAt: new Date(t.createdAt),
+        updatedAt: new Date(t.updatedAt),
+      }));
+    } catch {
+      return [];
+    }
   }
 }

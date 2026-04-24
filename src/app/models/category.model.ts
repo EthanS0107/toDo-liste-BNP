@@ -1,12 +1,12 @@
 export interface Category {
-  id: number;
+  id: string;
   name: string;
   color: string;
 }
 
 export const DEFAULT_CATEGORIES: Category[] = [
-  { id: 1, name: 'Travail', color: 'red' },
-  { id: 2, name: 'Personnel', color: 'yellow' },
-  { id: 3, name: 'Financie', color: 'blue' },
-  { id: 4, name: 'Santé', color: 'green' },
+  { id: 'cat1', name: 'Travail', color: '#ef4444' },
+  { id: 'cat2', name: 'Personnel', color: '#eab308' },
+  { id: 'cat3', name: 'Finance', color: '#3b82f6' },
+  { id: 'cat4', name: 'Santé', color: '#22c55e' },
 ];
