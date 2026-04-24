@@ -1,4 +1,5 @@
 import { Component, inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { TaskService } from '../../services/task.service';
 import { TaskList } from '../../components/task-list/task-list';
 import { TaskStatus, Task } from '../../models/task.model';
@@ -26,6 +27,7 @@ import { TaskStatus, Task } from '../../models/task.model';
 
       <app-task-list
         [tasks]="taskService.tasks()"
+        [categories]="taskService.categories()"
         (taskDeleted)="onTaskDeleted($event)"
         (taskEdited)="onTaskEdited($event)"
         (taskStatusChanged)="onTaskStatusChanged($event)"
@@ -35,14 +37,15 @@ import { TaskStatus, Task } from '../../models/task.model';
   styleUrls: ['./tasks-page.component.css'],
 })
 export class TasksPage {
-  taskService = inject(TaskService);
+  protected taskService = inject(TaskService);
+  private router = inject(Router);
 
   onTaskDeleted(id: string) {
     this.taskService.deleteTask(id);
   }
 
   onTaskEdited(task: Task) {
-    console.log('Task edited:', task.id);
+    this.router.navigate(['/tasks', task.id, 'edit']);
   }
 
   onTaskStatusChanged(data: { id: string; status: TaskStatus }) {

@@ -43,11 +43,20 @@
 
   <!-- Actions -->
   <div>
-    <!-- Bouton pour changer de statut -->
+    <!-- Bouton pour basculer le statut terminé / à faire -->
     @if (task().status !== 'done') {
-    <button (click)="onStatusChange('done')" title="Marquer comme terminé">
-      Marquer comme terminé
-    </button>
+      <button (click)="onStatusChange('done')" title="Marquer comme terminé">
+        Marquer comme terminé
+      </button>
+    } @else {
+      <button (click)="onStatusChange('todo')" title="Réouvrir la tâche">
+        Réouvrir
+      </button>
+    }
+    @if (task().status === 'todo') {
+      <button (click)="onStatusChange('in-progress')" title="Démarrer">
+        Démarrer
+      </button>
     }
 
     <!-- Bouton Modifier -->
