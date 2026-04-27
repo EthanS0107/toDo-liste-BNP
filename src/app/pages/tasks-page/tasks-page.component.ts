@@ -60,7 +60,11 @@ import { CommonModule } from '@angular/common';
 
       <!-- Filtres par catégorie -->
       <div class="category-filter">
-        <select class="category-select" #catSelect (change)="selectedCategory.set(catSelect.value || null)">
+        <select
+          class="category-select"
+          #catSelect
+          (change)="selectedCategory.set(catSelect.value || null)"
+        >
           <option value="">Toutes les catégories</option>
           @for (cat of taskService.categories(); track cat.id) {
             <option [value]="cat.id" [selected]="selectedCategory() === cat.id">
@@ -70,9 +74,26 @@ import { CommonModule } from '@angular/common';
         </select>
       </div>
 
+      <!-- Filtres par priorité -->
+      <div class="priority-filter">
+        <select
+          class="priority-select"
+          #prioritySelect
+          (change)="selectedPriority.set(prioritySelect.value || null)"
+        >
+          <option value="">Toutes les priorités</option>
+          @for (priority of taskService.priorities(); track priority.id) {
+            <option [value]="priority.id" [selected]="selectedPriority() === priority.id">
+              {{ priority.name }}
+            </option>
+          }
+        </select>
+      </div>
+
       <app-task-list
         [tasks]="filteredTasks()"
         [categories]="taskService.categories()"
+        [priorities]="taskService.priorities()"
         (taskDeleted)="onTaskDeleted($event)"
         (taskEdited)="onTaskEdited($event)"
         (taskStatusChanged)="onTaskStatusChanged($event)"
@@ -89,16 +110,22 @@ export class TasksPage {
   // Signaux pour l'état des filtres
   selectedStatus = signal<TaskStatus | null>(null);
   selectedCategory = signal<string | null>(null);
+  selectedPriority = signal<string | null>(null);
 
   // Computed pour les tâches filtrées (plus compact)
   filteredTasks = computed(() => {
     const status = this.selectedStatus();
     const category = this.selectedCategory();
+    const priority = this.selectedPriority();
 
-    return this.taskService.tasks().filter(task =>
-      (!status || task.status === status) &&
-      (!category || task.categoryId === category)
-    );
+    return this.taskService
+      .tasks()
+      .filter(
+        (task) =>
+          (!status || task.status === status) &&
+          (!category || task.categoryId === category) &&
+          (!priority || task.priority === priority),
+      );
   });
 
   setStatusFilter(status: TaskStatus | null) {

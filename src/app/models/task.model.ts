@@ -15,6 +15,18 @@ export interface Task {
   updatedAt: Date;
 }
 
+// Interface pour une priorité
+export interface Priority {
+  id: TaskPriority;
+  name: string;
+}
+
+export const DEFAULT_PRIORITIES: Priority[] = [
+  { id: 'low', name: 'Faible' },
+  { id: 'medium', name: 'Moyenne' },
+  { id: 'high', name: 'Haute' },
+];
+
 // Libellés pour les priorités
 export const PRIORITY_LABELS: Record<TaskPriority, string> = {
   low: 'Faible',
