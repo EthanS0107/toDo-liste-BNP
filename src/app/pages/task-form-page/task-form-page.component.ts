@@ -3,11 +3,12 @@ import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { TaskService } from '../../services/task.service';
 import { TaskPriority, TaskStatus } from '../../models/task.model';
+import { ButtonComponent } from '../../components/ui/button/button.component';
 
 @Component({
   selector: 'app-task-form-page',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, ButtonComponent],
   template: `
     <div class="form-page-container">
       <h1>{{ isEditMode() ? 'Modifier' : 'Créer' }} une tâche</h1>
@@ -94,10 +95,10 @@ import { TaskPriority, TaskStatus } from '../../models/task.model';
         </div>
 
         <div class="form-actions">
-          <button type="submit" [disabled]="!title().trim()">
+          <app-button type="submit" variant="primary" [disabled]="!title().trim()">
             {{ isEditMode() ? 'Enregistrer' : 'Créer la tâche' }}
-          </button>
-          <button type="button" class="secondary" (click)="onCancel()">Annuler</button>
+          </app-button>
+          <app-button type="button" variant="secondary" (click)="onCancel()">Annuler</app-button>
         </div>
       </form>
     </div>
