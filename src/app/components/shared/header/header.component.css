@@ -68,23 +68,3 @@
   align-items: center;
   justify-content: center;
 }
-
-.cta-button {
-  background-color: var(--color-primary);
-  color: white;
-  border: none;
-  padding: 0.55rem 1.25rem;
-  border-radius: 4px;
-  font-size: 0.9rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.cta-button:hover {
-  background-color: var(--color-primary-dark);
-}
-
-.cta-button:active {
-  transform: scale(0.98);
-}
