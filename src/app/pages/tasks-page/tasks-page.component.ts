@@ -2,28 +2,19 @@ import { Component, inject, signal, computed } from '@angular/core';
 import { Router } from '@angular/router';
 import { TaskService } from '../../services/task.service';
 import { TaskList } from '../../components/task-list/task-list';
+import { StatsBar } from '../../components/stats-bar/stats-bar.component';
 import { TaskStatus, Task, STATUS_LABELS } from '../../models/task.model';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-tasks-page',
   standalone: true,
-  imports: [TaskList, CommonModule],
+  imports: [TaskList, StatsBar, CommonModule],
   template: `
     <div class="tasks-page-container">
       <div class="tasks-page-header">
         <h1>Mes Tâches</h1>
-        <div class="stats">
-          <span class="stat-item"><strong>Total:</strong> {{ taskService.total() }}</span>
-          <span class="stat-item"><strong>À faire:</strong> {{ taskService.stats().todo }}</span>
-          <span class="stat-item"
-            ><strong>En cours:</strong> {{ taskService.stats().inProgress }}</span
-          >
-          <span class="stat-item"><strong>Terminées:</strong> {{ taskService.stats().done }}</span>
-          <span class="stat-item"
-            ><strong>En retard:</strong> {{ taskService.stats().overdue }}</span
-          >
-        </div>
+        <app-stats-bar [stats]="taskService.stats()" [total]="taskService.total()" />
       </div>
 
       <!-- Filtres par statut -->
