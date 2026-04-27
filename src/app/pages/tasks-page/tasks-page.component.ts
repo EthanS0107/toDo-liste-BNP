@@ -58,6 +58,18 @@ import { CommonModule } from '@angular/common';
         </button>
       </div>
 
+      <!-- Filtres par catégorie -->
+      <div class="category-filter">
+        <select class="category-select" #catSelect (change)="selectedCategory.set(catSelect.value || null)">
+          <option value="">Toutes les catégories</option>
+          @for (cat of taskService.categories(); track cat.id) {
+            <option [value]="cat.id" [selected]="selectedCategory() === cat.id">
+              {{ cat.name }}
+            </option>
+          }
+        </select>
+      </div>
+
       <app-task-list
         [tasks]="filteredTasks()"
         [categories]="taskService.categories()"
@@ -74,14 +86,19 @@ export class TasksPage {
   protected STATUS_LABELS = STATUS_LABELS;
   private router = inject(Router);
 
-  // Signal pour l'état du filtre
+  // Signaux pour l'état des filtres
   selectedStatus = signal<TaskStatus | null>(null);
+  selectedCategory = signal<string | null>(null);
 
-  // Computed pour les tâches filtrées
+  // Computed pour les tâches filtrées (plus compact)
   filteredTasks = computed(() => {
     const status = this.selectedStatus();
-    const allTasks = this.taskService.tasks();
-    return status === null ? allTasks : allTasks.filter((task) => task.status === status);
+    const category = this.selectedCategory();
+
+    return this.taskService.tasks().filter(task =>
+      (!status || task.status === status) &&
+      (!category || task.categoryId === category)
+    );
   });
 
   setStatusFilter(status: TaskStatus | null) {

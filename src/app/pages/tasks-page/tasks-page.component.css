@@ -66,3 +66,27 @@
   border-color: var(--color-green-500);
   box-shadow: 0 2px 8px rgba(34, 197, 189, 0.3);
 }
+
+/* Filtre par catégorie */
+.category-filter {
+  margin-bottom: 2rem;
+}
+
+.category-select {
+  padding: 0.625rem 1.25rem;
+  border: 2px solid var(--color-gray-300);
+  border-radius: 6px;
+  background-color: transparent;
+  color: var(--color-gray-700);
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  min-width: 200px;
+}
+
+.category-select:hover,
+.category-select:focus {
+  border-color: var(--color-green-500);
+  outline: none;
+}
