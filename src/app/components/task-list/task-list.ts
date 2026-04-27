@@ -1,5 +1,5 @@
 import { Component, input, output, computed } from '@angular/core';
-import { Task, TaskStatus } from '../../models/task.model';
+import { Task, TaskStatus, Priority } from '../../models/task.model';
 import { Category } from '../../models/category.model';
 import { TaskCard } from '../task-card/task-card';
 
@@ -11,6 +11,7 @@ import { TaskCard } from '../task-card/task-card';
 export class TaskList {
   tasks = input.required<Task[]>();
   categories = input<Category[]>([]);
+  priorities = input<Priority[]>([]);
 
   taskDeleted = output<string>();
   taskEdited = output<Task>();

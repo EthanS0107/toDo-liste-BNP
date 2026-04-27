@@ -1,5 +1,5 @@
 import { Injectable, signal, computed, effect } from '@angular/core';
-import { Task, TaskStatus } from '../models/task.model';
+import { Task, TaskStatus, DEFAULT_PRIORITIES, Priority } from '../models/task.model';
 import { Category, DEFAULT_CATEGORIES } from '../models/category.model';
 
 const STORAGE_KEY = 'bnp-todo-tasks';
@@ -10,6 +10,7 @@ export class TaskService {
 
   readonly tasks = this.tasksSignal.asReadonly();
   readonly categories = signal<Category[]>(DEFAULT_CATEGORIES).asReadonly();
+  readonly priorities = signal<Priority[]>(DEFAULT_PRIORITIES).asReadonly();
 
   readonly total = computed(() => this.tasks().length);
 
