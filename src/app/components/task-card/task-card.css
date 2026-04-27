@@ -18,7 +18,7 @@ div.overdue {
 }
 
 /* En-tête avec titre et priorité */
-> div:nth-child(1) {
+div:nth-child(1) {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
@@ -40,7 +40,7 @@ h3.done {
 }
 
 /* Badge de priorité */
-> div:nth-child(1) > span {
+div:nth-child(1) > span {
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
@@ -53,7 +53,7 @@ h3.done {
   color: var(--color-gray-600);
 }
 
-> div:nth-child(1) > span > span:first-child {
+div:nth-child(1) > span > span:first-child {
   display: inline-block;
   width: 6px;
   height: 6px;
@@ -62,7 +62,7 @@ h3.done {
 }
 
 /* Description */
-> p {
+p {
   margin: 0.75rem 0;
   color: var(--color-gray-600);
   font-size: 0.95rem;
@@ -71,7 +71,7 @@ h3.done {
 }
 
 /* Métadonnées (status, catégorie, date) */
-> div:nth-child(3) {
+div:nth-child(3) {
   display: flex;
   flex-wrap: wrap;
   gap: 0.75rem;
@@ -80,7 +80,7 @@ h3.done {
   border-bottom: 1px solid var(--color-gray-200);
 }
 
-> div:nth-child(3) > span {
+div:nth-child(3) > span {
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
@@ -91,56 +91,23 @@ h3.done {
   color: var(--color-gray-700);
 }
 
-> div:nth-child(3) > span > span {
+div:nth-child(3) > span > span {
   display: inline-block;
   width: 8px;
   height: 8px;
   border-radius: 50%;
 }
 
-> div:nth-child(3) > span.overdue-text {
+div:nth-child(3) > span.overdue-text {
   background-color: rgba(239, 68, 68, 0.1);
   color: var(--color-red);
   font-weight: 600;
 }
 
 /* Actions (boutons) */
-> div:nth-child(4) {
+div:nth-child(4) {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
   justify-content: flex-end;
-}
-
-button {
-  padding: 0.5rem 0.875rem;
-  font-size: 0.85rem;
-  border-radius: 4px;
-  border: 1px solid transparent;
-  background-color: var(--color-gray-100);
-  color: var(--color-gray-700);
-  cursor: pointer;
-  transition: all 0.15s;
-}
-
-button:hover {
-  background-color: var(--color-gray-200);
-}
-
-button:nth-of-type(1) {
-  background-color: rgba(0, 150, 94, 0.08);
-  color: var(--color-primary);
-  border-color: var(--color-primary);
-}
-
-button:nth-of-type(1):hover {
-  background-color: rgba(0, 150, 94, 0.15);
-}
-
-button:nth-of-type(3) {
-  color: var(--color-red);
-}
-
-button:nth-of-type(3):hover {
-  background-color: rgba(239, 68, 68, 0.1);
 }

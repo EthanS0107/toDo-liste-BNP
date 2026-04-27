@@ -45,28 +45,28 @@
   <div>
     <!-- Bouton pour basculer le statut terminé / à faire -->
     @if (task().status !== 'done') {
-      <button (click)="onStatusChange('done')" title="Marquer comme terminé">
+      <app-button variant="primary" size="sm" title="Marquer comme terminé" (click)="onStatusChange('done')">
         Marquer comme terminé
-      </button>
+      </app-button>
     } @else {
-      <button (click)="onStatusChange('todo')" title="Réouvrir la tâche">
+      <app-button variant="ghost" size="sm" title="Réouvrir la tâche" (click)="onStatusChange('todo')">
         Réouvrir
-      </button>
+      </app-button>
     }
     @if (task().status === 'todo') {
-      <button (click)="onStatusChange('in-progress')" title="Démarrer">
+      <app-button variant="ghost" size="sm" title="Démarrer" (click)="onStatusChange('in-progress')">
         Démarrer
-      </button>
+      </app-button>
     }
 
     <!-- Bouton Modifier -->
-    <button (click)="onEdit()" title="Modifier">
+    <app-button variant="ghost" size="sm" title="Modifier" (click)="onEdit()">
       Modifier
-    </button>
+    </app-button>
 
     <!-- Bouton Supprimer -->
-    <button (click)="onDelete()" title="Supprimer">
+    <app-button variant="danger" size="sm" title="Supprimer" (click)="onDelete()">
       Supprimer
-    </button>
+    </app-button>
   </div>
 </div>

@@ -2,10 +2,11 @@ import { Component, input, output, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Task, TaskStatus, PRIORITY_LABELS, STATUS_LABELS } from '../../models/task.model';
 import { Category } from '../../models/category.model';
+import { ButtonComponent } from '../ui/button/button.component';
 
 @Component({
   selector: 'app-task-card',
-  imports: [CommonModule],
+  imports: [CommonModule, ButtonComponent],
   templateUrl: './task-card.html',
   styleUrl: './task-card.css',
 })
