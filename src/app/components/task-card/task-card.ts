@@ -5,11 +5,18 @@ import { Category } from '../../models/category.model';
 import { ButtonComponent } from '../ui/button/button.component';
 import { PriorityBadgeComponent } from '../ui/priority-badge/priority-badge.component';
 import { StatusBadgeComponent } from '../ui/status-badge/status-badge.component';
+import { TaskActionsComponent } from './task-actions.component';
 
 @Component({
   selector: 'app-task-card',
   standalone: true,
-  imports: [CommonModule, ButtonComponent, PriorityBadgeComponent, StatusBadgeComponent],
+  imports: [
+    CommonModule,
+    ButtonComponent,
+    PriorityBadgeComponent,
+    StatusBadgeComponent,
+    TaskActionsComponent,
+  ],
   templateUrl: './task-card.html',
   styleUrl: './task-card.css',
 })
@@ -55,17 +62,4 @@ export class TaskCard {
     if (diffDays > 1) return `Dans ${diffDays} jours`;
     return `Il y a ${Math.abs(diffDays)} jours`;
   });
-
-  // Methods pour émettre les événements
-  onDelete() {
-    this.deleted.emit(this.task().id);
-  }
-
-  onEdit() {
-    this.edited.emit(this.task());
-  }
-
-  onStatusChange(newStatus: TaskStatus) {
-    this.statusChanged.emit({ id: this.task().id, status: newStatus });
-  }
 }

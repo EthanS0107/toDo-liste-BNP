@@ -39,47 +39,14 @@
     }
   </div>
 
-  <!-- Actions -->
   <div>
-    <!-- Bouton pour basculer le statut terminé / à faire -->
-    @if (t.status !== 'done') {
-      <app-button
-        variant="primary"
-        size="sm"
-        title="Marquer comme terminé"
-        (click)="onStatusChange('done')"
-      >
-        Marquer comme terminé
-      </app-button>
-    } @else {
-      <app-button
-        variant="ghost"
-        size="sm"
-        title="Réouvrir la tâche"
-        (click)="onStatusChange('todo')"
-      >
-        Réouvrir
-      </app-button>
-    }
-    @if (t.status === 'todo') {
-      <app-button
-        variant="ghost"
-        size="sm"
-        title="Démarrer"
-        (click)="onStatusChange('in-progress')"
-      >
-        Démarrer
-      </app-button>
-    }
-
-    <!-- Bouton Modifier -->
-    <app-button variant="ghost" size="sm" title="Modifier" (click)="onEdit()">
-      Modifier
-    </app-button>
-
-    <!-- Bouton Supprimer -->
-    <app-button variant="danger" size="sm" title="Supprimer" (click)="onDelete()">
-      Supprimer
-    </app-button>
+    <app-task-actions
+      [status]="t.status"
+      (markDone)="statusChanged.emit({ id: t.id, status: 'done' })"
+      (reopen)="statusChanged.emit({ id: t.id, status: 'todo' })"
+      (start)="statusChanged.emit({ id: t.id, status: 'in-progress' })"
+      (edit)="edited.emit(t)"
+      (delete)="deleted.emit(t.id)"
+    ></app-task-actions>
   </div>
 </div>
