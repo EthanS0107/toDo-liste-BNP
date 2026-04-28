@@ -10,8 +10,9 @@ import { ButtonComponent } from '../../components/ui/button/button.component';
   standalone: true,
   imports: [FormsModule, ButtonComponent],
   template: `
+    @let editMode = isEditMode();
     <div class="form-page-container">
-      <h1>{{ isEditMode() ? 'Modifier' : 'Créer' }} une tâche</h1>
+      <h1>{{ editMode ? 'Modifier' : 'Créer' }} une tâche</h1>
 
       <form (ngSubmit)="onSubmit()" class="task-form">
         <div class="form-group">
@@ -52,7 +53,7 @@ import { ButtonComponent } from '../../components/ui/button/button.component';
           </select>
         </div>
 
-        @if (isEditMode()) {
+        @if (editMode) {
           <div class="form-group">
             <label for="status">Statut</label>
             <select
@@ -96,7 +97,7 @@ import { ButtonComponent } from '../../components/ui/button/button.component';
 
         <div class="form-actions">
           <app-button type="submit" variant="primary" [disabled]="!title().trim()">
-            {{ isEditMode() ? 'Enregistrer' : 'Créer la tâche' }}
+            {{ editMode ? 'Enregistrer' : 'Créer la tâche' }}
           </app-button>
           <app-button type="button" variant="secondary" (click)="onCancel()">Annuler</app-button>
         </div>

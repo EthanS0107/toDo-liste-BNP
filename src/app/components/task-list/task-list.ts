@@ -5,6 +5,7 @@ import { TaskCard } from '../task-card/task-card';
 
 @Component({
   selector: 'app-task-list',
+  standalone: true,
   imports: [TaskCard],
   templateUrl: './task-list.html',
 })

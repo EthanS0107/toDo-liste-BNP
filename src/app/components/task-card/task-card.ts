@@ -8,6 +8,7 @@ import { StatusBadgeComponent } from '../ui/status-badge/status-badge.component'
 
 @Component({
   selector: 'app-task-card',
+  standalone: true,
   imports: [CommonModule, ButtonComponent, PriorityBadgeComponent, StatusBadgeComponent],
   templateUrl: './task-card.html',
   styleUrl: './task-card.css',
