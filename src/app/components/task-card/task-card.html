@@ -4,10 +4,7 @@
     <h3 [class.done]="task().status === 'done'">
       {{ task().title }}
     </h3>
-    <span>
-      <span></span>
-      {{ priorityLabel() }}
-    </span>
+    <app-priority-badge [priority]="task().priority"></app-priority-badge>
   </div>
 
   <!-- Description -->
@@ -18,26 +15,24 @@
   <!-- Méta-informations : Catégorie, Date, Statut -->
   <div>
     <!-- Statut (Badge) -->
-    <span>
-      {{ statusLabel() }}
-    </span>
+    <app-status-badge [status]="task().status"></app-status-badge>
 
     <!-- Catégorie -->
     @if (category()) {
-    <span>
-      <span [style.backgroundColor]="category()?.color"></span>
-      {{ category()?.name }}
-    </span>
+      <span>
+        <span [style.backgroundColor]="category()?.color"></span>
+        {{ category()?.name }}
+      </span>
     }
 
     <!-- Date d'échéance (relative / overdue) -->
     @if (task().dueDate) {
-    <span [class.overdue-text]="isOverdue()">
-      {{ relativeDueDate() }}
-      @if (isOverdue()) {
-      <span>(En retard)</span>
-      }
-    </span>
+      <span [class.overdue-text]="isOverdue()">
+        {{ relativeDueDate() }}
+        @if (isOverdue()) {
+          <span>(En retard)</span>
+        }
+      </span>
     }
   </div>
 
@@ -45,16 +40,31 @@
   <div>
     <!-- Bouton pour basculer le statut terminé / à faire -->
     @if (task().status !== 'done') {
-      <app-button variant="primary" size="sm" title="Marquer comme terminé" (click)="onStatusChange('done')">
+      <app-button
+        variant="primary"
+        size="sm"
+        title="Marquer comme terminé"
+        (click)="onStatusChange('done')"
+      >
         Marquer comme terminé
       </app-button>
     } @else {
-      <app-button variant="ghost" size="sm" title="Réouvrir la tâche" (click)="onStatusChange('todo')">
+      <app-button
+        variant="ghost"
+        size="sm"
+        title="Réouvrir la tâche"
+        (click)="onStatusChange('todo')"
+      >
         Réouvrir
       </app-button>
     }
     @if (task().status === 'todo') {
-      <app-button variant="ghost" size="sm" title="Démarrer" (click)="onStatusChange('in-progress')">
+      <app-button
+        variant="ghost"
+        size="sm"
+        title="Démarrer"
+        (click)="onStatusChange('in-progress')"
+      >
         Démarrer
       </app-button>
     }

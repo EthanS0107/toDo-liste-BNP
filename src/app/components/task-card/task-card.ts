@@ -1,12 +1,14 @@
 import { Component, input, output, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Task, TaskStatus, PRIORITY_LABELS, STATUS_LABELS } from '../../models/task.model';
+import { Task, TaskStatus } from '../../models/task.model';
 import { Category } from '../../models/category.model';
 import { ButtonComponent } from '../ui/button/button.component';
+import { PriorityBadgeComponent } from '../ui/priority-badge/priority-badge.component';
+import { StatusBadgeComponent } from '../ui/status-badge/status-badge.component';
 
 @Component({
   selector: 'app-task-card',
-  imports: [CommonModule, ButtonComponent],
+  imports: [CommonModule, ButtonComponent, PriorityBadgeComponent, StatusBadgeComponent],
   templateUrl: './task-card.html',
   styleUrl: './task-card.css',
 })
@@ -24,7 +26,7 @@ export class TaskCard {
   isOverdue = computed(() => {
     const dueDate = this.task().dueDate;
     if (!dueDate) return false;
-    
+
     const today = new Date();
     today.setHours(0, 0, 0, 0);
     const targetDate = new Date(dueDate);
@@ -33,25 +35,22 @@ export class TaskCard {
     return targetDate < today && this.task().status !== 'done';
   });
 
-  priorityLabel = computed(() => PRIORITY_LABELS[this.task().priority]);
-  statusLabel = computed(() => STATUS_LABELS[this.task().status]);
-
   relativeDueDate = computed(() => {
     const dueDate = this.task().dueDate;
     if (!dueDate) return null;
-    
+
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-    
+
     const targetDate = new Date(dueDate);
     targetDate.setHours(0, 0, 0, 0);
-    
+
     const diffTime = targetDate.getTime() - today.getTime();
     const diffDays = Math.round(diffTime / (1000 * 60 * 60 * 24));
-    
+
     if (diffDays === 0) return "Aujourd'hui";
-    if (diffDays === 1) return "Demain";
-    if (diffDays === -1) return "Hier";
+    if (diffDays === 1) return 'Demain';
+    if (diffDays === -1) return 'Hier';
     if (diffDays > 1) return `Dans ${diffDays} jours`;
     return `Il y a ${Math.abs(diffDays)} jours`;
   });
