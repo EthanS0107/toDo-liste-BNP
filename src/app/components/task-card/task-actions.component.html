@@ -1,0 +1,40 @@
+<div>
+  @if (status() !== 'done') {
+    <app-button
+      variant="primary"
+      size="sm"
+      title="Marquer comme terminé"
+      (click)="onMarkDone()"
+    >
+      Marquer comme terminé
+    </app-button>
+  } @else {
+    <app-button
+      variant="ghost"
+      size="sm"
+      title="Réouvrir la tâche"
+      (click)="onReopen()"
+    >
+      Réouvrir
+    </app-button>
+  }
+
+  @if (status() === 'todo') {
+    <app-button
+      variant="ghost"
+      size="sm"
+      title="Démarrer"
+      (click)="onStart()"
+    >
+      Démarrer
+    </app-button>
+  }
+
+  <app-button variant="ghost" size="sm" title="Modifier" (click)="onEdit()">
+    Modifier
+  </app-button>
+
+  <app-button variant="danger" size="sm" title="Supprimer" (click)="onDelete()">
+    Supprimer
+  </app-button>
+</div>
