@@ -14,6 +14,8 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [TaskList, StatsBar, StatusFilter, CommonModule],
   template: `
+    @let categories = taskService.categories();
+    @let priorities = taskService.priorities();
     <div class="tasks-page-container">
       <div class="tasks-page-header">
         <h1>Mes Tâches</h1>
@@ -43,7 +45,7 @@ import { CommonModule } from '@angular/common';
           (change)="selectedCategory.set(catSelect.value || null)"
         >
           <option value="">Toutes les catégories</option>
-          @for (cat of taskService.categories(); track cat.id) {
+          @for (cat of categories; track cat.id) {
             <option [value]="cat.id" [selected]="selectedCategory() === cat.id">
               {{ cat.name }}
             </option>
@@ -59,7 +61,7 @@ import { CommonModule } from '@angular/common';
           (change)="selectedPriority.set(prioritySelect.value || null)"
         >
           <option value="">Toutes les priorités</option>
-          @for (priority of taskService.priorities(); track priority.id) {
+          @for (priority of priorities; track priority.id) {
             <option [value]="priority.id" [selected]="selectedPriority() === priority.id">
               {{ priority.name }}
             </option>
@@ -82,8 +84,8 @@ import { CommonModule } from '@angular/common';
 
       <app-task-list
         [tasks]="sortedTasks()"
-        [categories]="taskService.categories()"
-        [priorities]="taskService.priorities()"
+        [categories]="categories"
+        [priorities]="priorities"
         (taskDeleted)="onTaskDeleted($event)"
         (taskEdited)="onTaskEdited($event)"
         (taskStatusChanged)="onTaskStatusChanged($event)"

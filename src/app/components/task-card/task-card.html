@@ -1,35 +1,38 @@
-<div [class.overdue]="isOverdue()">
+@let t = task();
+@let cat = category();
+@let overdue = isOverdue();
+<div [class.overdue]="overdue">
   <!-- En-tête : Titre et Priorité -->
   <div>
-    <h3 [class.done]="task().status === 'done'">
-      {{ task().title }}
+    <h3 [class.done]="t.status === 'done'">
+      {{ t.title }}
     </h3>
-    <app-priority-badge [priority]="task().priority"></app-priority-badge>
+    <app-priority-badge [priority]="t.priority"></app-priority-badge>
   </div>
 
   <!-- Description -->
   <p>
-    {{ task().description }}
+    {{ t.description }}
   </p>
 
   <!-- Méta-informations : Catégorie, Date, Statut -->
   <div>
     <!-- Statut (Badge) -->
-    <app-status-badge [status]="task().status"></app-status-badge>
+    <app-status-badge [status]="t.status"></app-status-badge>
 
     <!-- Catégorie -->
-    @if (category()) {
+    @if (cat) {
       <span>
-        <span [style.backgroundColor]="category()?.color"></span>
-        {{ category()?.name }}
+        <span [style.backgroundColor]="cat.color"></span>
+        {{ cat.name }}
       </span>
     }
 
     <!-- Date d'échéance (relative / overdue) -->
-    @if (task().dueDate) {
-      <span [class.overdue-text]="isOverdue()">
+    @if (t.dueDate) {
+      <span [class.overdue-text]="overdue">
         {{ relativeDueDate() }}
-        @if (isOverdue()) {
+        @if (overdue) {
           <span>(En retard)</span>
         }
       </span>
@@ -39,7 +42,7 @@
   <!-- Actions -->
   <div>
     <!-- Bouton pour basculer le statut terminé / à faire -->
-    @if (task().status !== 'done') {
+    @if (t.status !== 'done') {
       <app-button
         variant="primary"
         size="sm"
@@ -58,7 +61,7 @@
         Réouvrir
       </app-button>
     }
-    @if (task().status === 'todo') {
+    @if (t.status === 'todo') {
       <app-button
         variant="ghost"
         size="sm"
