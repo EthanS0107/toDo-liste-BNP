@@ -1,4 +1,4 @@
-import { Component, inject, signal, computed, linkedSignal } from '@angular/core';
+import { Component, inject, signal, computed, linkedSignal, viewChild, ElementRef, effect } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 import { debounceTime } from 'rxjs';
@@ -97,6 +97,14 @@ import { CommonModule } from '@angular/common';
 export class TasksPage {
   protected taskService = inject(TaskService);
   private router = inject(Router);
+
+  searchInputRef = viewChild<ElementRef<HTMLInputElement>>('searchInput');
+
+  constructor() {
+    effect(() => {
+      this.searchInputRef()?.nativeElement.focus();
+    });
+  }
 
   // Signaux pour l'état des filtres
   searchQuery = signal<string>('');

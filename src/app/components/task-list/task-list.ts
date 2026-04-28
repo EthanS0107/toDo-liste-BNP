@@ -1,4 +1,4 @@
-import { Component, input, output, computed } from '@angular/core';
+import { Component, input, output, computed, viewChildren } from '@angular/core';
 import { Task, TaskStatus, Priority } from '../../models/task.model';
 import { Category } from '../../models/category.model';
 import { TaskCard } from '../task-card/task-card';
@@ -10,6 +10,7 @@ import { TaskCard } from '../task-card/task-card';
   templateUrl: './task-list.html',
 })
 export class TaskList {
+  taskCards = viewChildren(TaskCard);
   tasks = input.required<Task[]>();
   categories = input<Category[]>([]);
   priorities = input<Priority[]>([]);
