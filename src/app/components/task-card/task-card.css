@@ -80,24 +80,6 @@ div:nth-child(3) {
   border-bottom: 1px solid var(--color-gray-200);
 }
 
-div:nth-child(3) > span {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  padding: 0.35rem 0.65rem;
-  border-radius: 4px;
-  font-size: 0.8rem;
-  background-color: var(--color-gray-100);
-  color: var(--color-gray-700);
-}
-
-div:nth-child(3) > span > span {
-  display: inline-block;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-}
-
 div:nth-child(3) > span.overdue-text {
   background-color: rgba(239, 68, 68, 0.1);
   color: var(--color-red);

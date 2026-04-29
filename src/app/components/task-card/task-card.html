@@ -22,10 +22,7 @@
 
     <!-- Catégorie -->
     @if (cat) {
-      <span>
-        <span [style.backgroundColor]="cat.color"></span>
-        {{ cat.name }}
-      </span>
+      <app-category-chip [category]="cat"></app-category-chip>
     }
 
     <!-- Date d'échéance (relative / overdue) -->
