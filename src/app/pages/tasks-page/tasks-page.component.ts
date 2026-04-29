@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { debounceTime } from 'rxjs';
 import { TaskService } from '../../services/task.service';
 import { TaskList } from '../../components/task-list/task-list';
-import { StatsBar } from '../../components/stats-bar/stats-bar.component';
+import { DashboardComponent } from '../../components/dashboard/dashboard.component';
 import { StatusFilter } from '../../components/status-filter/status-filter.component';
 import { TaskStatus, Task } from '../../models/task.model';
 import { CommonModule } from '@angular/common';
@@ -12,15 +12,16 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-tasks-page',
   standalone: true,
-  imports: [TaskList, StatsBar, StatusFilter, CommonModule],
+  imports: [TaskList, DashboardComponent, StatusFilter, CommonModule],
   template: `
     @let categories = taskService.categories();
     @let priorities = taskService.priorities();
     <div class="tasks-page-container">
       <div class="tasks-page-header">
         <h1>Mes Tâches</h1>
-        <app-stats-bar [stats]="taskService.stats()" [total]="taskService.total()" />
       </div>
+
+      <app-dashboard />
 
       <div>
         <input

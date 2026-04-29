@@ -17,12 +17,21 @@ export class TaskService {
   readonly stats = computed(() => {
     const list = this.tasks();
     const now = new Date();
+    
+    // Début de la semaine en cours (Lundi)
+    const startOfWeek = new Date(now);
+    const day = startOfWeek.getDay() || 7; // Dimanche devient 7
+    if (day !== 1) {
+      startOfWeek.setHours(-24 * (day - 1));
+    }
+    startOfWeek.setHours(0, 0, 0, 0);
+
     return {
       todo: list.filter((t) => t.status === 'todo').length,
       inProgress: list.filter((t) => t.status === 'in-progress').length,
       done: list.filter((t) => t.status === 'done').length,
-      overdue: list.filter((t) => t.status !== 'done' && t.dueDate && new Date(t.dueDate) < now)
-        .length,
+      overdue: list.filter((t) => t.status !== 'done' && t.dueDate && new Date(t.dueDate) < now).length,
+      completedThisWeek: list.filter((t) => t.status === 'done' && new Date(t.updatedAt) >= startOfWeek).length,
     };
   });
 
