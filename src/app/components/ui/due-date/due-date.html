@@ -1,0 +1,8 @@
+@if (date()) {
+  <span [class.overdue-text]="overdue()">
+    {{ date() | relativeDate }}
+    @if (overdue()) {
+      <span>(En retard)</span>
+    }
+  </span>
+}

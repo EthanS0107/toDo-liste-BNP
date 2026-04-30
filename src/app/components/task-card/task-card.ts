@@ -6,6 +6,8 @@ import { ButtonComponent } from '../ui/button/button.component';
 import { CategoryChipComponent } from '../ui/category-chip/category-chip.component';
 import { PriorityBadgeComponent } from '../ui/priority-badge/priority-badge.component';
 import { StatusBadgeComponent } from '../ui/status-badge/status-badge.component';
+import { DueDateComponent } from '../ui/due-date/due-date';
+import { IsOverduePipe } from '../ui/due-date/is-overdue-pipe';
 import { TaskActionsComponent } from './task-actions.component';
 
 @Component({
@@ -17,6 +19,8 @@ import { TaskActionsComponent } from './task-actions.component';
     CategoryChipComponent,
     PriorityBadgeComponent,
     StatusBadgeComponent,
+    DueDateComponent,
+    IsOverduePipe,
     TaskActionsComponent,
   ],
   templateUrl: './task-card.html',
@@ -31,37 +35,4 @@ export class TaskCard {
   deleted = output<string>();
   edited = output<Task>();
   statusChanged = output<{ id: string; status: TaskStatus }>();
-
-  // Computed properties
-  isOverdue = computed(() => {
-    const dueDate = this.task().dueDate;
-    if (!dueDate) return false;
-
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    const targetDate = new Date(dueDate);
-    targetDate.setHours(0, 0, 0, 0);
-
-    return targetDate < today && this.task().status !== 'done';
-  });
-
-  relativeDueDate = computed(() => {
-    const dueDate = this.task().dueDate;
-    if (!dueDate) return null;
-
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-
-    const targetDate = new Date(dueDate);
-    targetDate.setHours(0, 0, 0, 0);
-
-    const diffTime = targetDate.getTime() - today.getTime();
-    const diffDays = Math.round(diffTime / (1000 * 60 * 60 * 24));
-
-    if (diffDays === 0) return "Aujourd'hui";
-    if (diffDays === 1) return 'Demain';
-    if (diffDays === -1) return 'Hier';
-    if (diffDays > 1) return `Dans ${diffDays} jours`;
-    return `Il y a ${Math.abs(diffDays)} jours`;
-  });
 }
