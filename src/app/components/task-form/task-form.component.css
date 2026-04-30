@@ -26,6 +26,7 @@ label {
 input[type="text"],
 input[type="email"],
 input[type="date"],
+select,
 textarea {
   width: 100%;
   padding: 0.75rem;
@@ -38,6 +39,7 @@ textarea {
 input[type="text"]:focus,
 input[type="email"]:focus,
 input[type="date"]:focus,
+select:focus,
 textarea:focus {
   outline: none;
   border-color: var(--color-primary);
@@ -47,6 +49,18 @@ textarea:focus {
 textarea {
   resize: vertical;
   min-height: 120px;
+}
+
+select {
+  cursor: pointer;
+  font-family: inherit;
+  background-color: white;
+}
+
+.form-actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 0.75rem;
 }
 
 /* Bouton de soumission */
