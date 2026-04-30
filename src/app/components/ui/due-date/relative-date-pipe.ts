@@ -20,7 +20,20 @@ export class RelativeDatePipe implements PipeTransform {
     if (diffDays === 0) return "Aujourd'hui";
     if (diffDays === 1) return 'Demain';
     if (diffDays === -1) return 'Hier';
-    if (diffDays > 1) return `Dans ${diffDays} jours`;
-    return `Il y a ${Math.abs(diffDays)} jours`;
+    
+    if (diffDays < 0) {
+      return `En retard de ${Math.abs(diffDays)} jours`;
+    }
+    
+    if (diffDays <= 7) {
+      return `Dans ${diffDays} jours`;
+    }
+
+    // Date longue si > 7 jours
+    return new Intl.DateTimeFormat('fr-FR', {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric',
+    }).format(new Date(value));
   }
 }
