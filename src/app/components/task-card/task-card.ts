@@ -2,7 +2,6 @@ import { Component, input, output, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Task, TaskStatus } from '../../models/task.model';
 import { Category } from '../../models/category.model';
-import { ButtonComponent } from '../ui/button/button.component';
 import { CategoryChipComponent } from '../ui/category-chip/category-chip.component';
 import { PriorityBadgeComponent } from '../ui/priority-badge/priority-badge.component';
 import { StatusBadgeComponent } from '../ui/status-badge/status-badge.component';
@@ -15,7 +14,6 @@ import { TaskActionsComponent } from './task-actions.component';
   standalone: true,
   imports: [
     CommonModule,
-    ButtonComponent,
     CategoryChipComponent,
     PriorityBadgeComponent,
     StatusBadgeComponent,
