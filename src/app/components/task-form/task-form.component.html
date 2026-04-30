@@ -1,4 +1,84 @@
-<form (submit)="$event.preventDefault(); submit()">
-  <app-priority-picker [(value)]="priority" />
-  <button type="submit" [disabled]="!title()">Enregistrer</button>
+<form (ngSubmit)="submit()" class="task-form">
+
+  <app-form-field label="Titre *" fieldId="title">
+    <input
+      id="title"
+      type="text"
+      [ngModel]="title()"
+      (ngModelChange)="title.set($event)"
+      name="title"
+      placeholder="Nom de la tâche"
+      required
+    />
+  </app-form-field>
+
+  <app-form-field label="Description" fieldId="description">
+    <textarea
+      id="description"
+      [ngModel]="description()"
+      (ngModelChange)="description.set($event)"
+      name="description"
+      placeholder="Détails de la tâche..."
+    ></textarea>
+  </app-form-field>
+
+  <app-form-field label="Priorité" fieldId="priority">
+    <select
+      id="priority"
+      [ngModel]="priority()"
+      (ngModelChange)="priority.set($event)"
+      name="priority"
+    >
+      <option value="low">Basse</option>
+      <option value="medium">Moyenne</option>
+      <option value="high">Haute</option>
+    </select>
+  </app-form-field>
+
+  @if (editMode()) {
+    <app-form-field label="Statut" fieldId="status">
+      <select
+        id="status"
+        [ngModel]="status()"
+        (ngModelChange)="status.set($event)"
+        name="status"
+      >
+        <option value="todo">À faire</option>
+        <option value="in-progress">En cours</option>
+        <option value="done">Terminé</option>
+      </select>
+    </app-form-field>
+  }
+
+  <app-form-field label="Catégorie" fieldId="categoryId">
+    <select
+      id="categoryId"
+      [ngModel]="categoryId()"
+      (ngModelChange)="categoryId.set($event)"
+      name="categoryId"
+    >
+      <option value="">— Aucune —</option>
+      @for (cat of categories(); track cat.id) {
+        <option [value]="cat.id">{{ cat.name }}</option>
+      }
+    </select>
+  </app-form-field>
+
+  <app-form-field label="Date d'échéance" fieldId="dueDate">
+    <input
+      id="dueDate"
+      type="date"
+      [ngModel]="dueDate()"
+      (ngModelChange)="dueDate.set($event)"
+      name="dueDate"
+    />
+  </app-form-field>
+
+  <div class="form-actions">
+    <app-button type="submit" variant="primary" [disabled]="!title().trim()">
+      {{ editMode() ? 'Enregistrer' : 'Créer la tâche' }}
+    </app-button>
+    <app-button type="button" variant="secondary" (click)="cancelled.emit()">Annuler</app-button>
+  </div>
+
 </form>

@@ -1,22 +1,26 @@
 import { Component, input, output, signal, effect } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { Task, TaskPriority, TaskStatus } from '../../models/task.model';
-import { PriorityPickerComponent } from '../priority-picker/priority-picker.component';
+import { Category } from '../../models/category.model';
+import { ButtonComponent } from '../ui/button/button.component';
+import { FormFieldComponent } from '../ui/form-field/form-field.component';
+import { toDateInputValue } from '../../utils/date';
 
 @Component({
   selector: 'app-task-form',
-  imports: [PriorityPickerComponent],
+  standalone: true,
+  imports: [FormsModule, ButtonComponent, FormFieldComponent],
   templateUrl: './task-form.component.html',
   styleUrl: './task-form.component.css',
 })
 export class TaskFormComponent {
-  // On reçoit éventuellement une tâche à modifier
   initialTask = input<Task | null>(null);
+  editMode = input<boolean>(false);
+  categories = input<Category[]>([]);
 
-  // On envoie un signal quand on a fini ou annulé
-  saved = output<Partial<Task>>();
+  submitted = output<Partial<Task>>();
   cancelled = output<void>();
 
-  // Chaque signal correspond à une case vide au début
   title = signal('');
   description = signal('');
   priority = signal<TaskPriority>('medium');
@@ -25,38 +29,28 @@ export class TaskFormComponent {
   dueDate = signal<string>('');
 
   constructor() {
-    // Cette fonction 'effect' surveille si on nous donne une 'initialTask'
-    // Si oui, elle remplit automatiquement les tiroirs avec les infos de la tâche
     effect(() => {
       const task = this.initialTask();
-      if (task) {
-        this.title.set(task.title);
-        this.description.set(task.description);
-        this.priority.set(task.priority);
-        this.status.set(task.status);
-        this.categoryId.set(task.categoryId);
-        if (task.dueDate) {
-          this.dueDate.set(new Date(task.dueDate).toISOString().split('T')[0]);
-        }
-      }
+      if (!task) return;
+      this.title.set(task.title);
+      this.description.set(task.description);
+      this.priority.set(task.priority);
+      this.status.set(task.status);
+      this.categoryId.set(task.categoryId);
+      this.dueDate.set(toDateInputValue(task.dueDate));
     });
   }
 
   submit() {
-    // Si le titre est vide, on s'arrête là
-    if (!this.title()) return;
-
-    // On prépare le paquet de données
-    const data = {
-      title: this.title(),
+    const titleVal = this.title().trim();
+    if (!titleVal) return;
+    this.submitted.emit({
+      title: titleVal,
       description: this.description(),
       priority: this.priority(),
       status: this.status(),
       categoryId: this.categoryId(),
       dueDate: this.dueDate() ? new Date(this.dueDate()) : null,
-    };
-
-    // On envoie le paquet vers le reste de l'application
-    this.saved.emit(data);
+    });
   }
 }
