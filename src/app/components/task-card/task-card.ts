@@ -2,22 +2,22 @@ import { Component, input, output, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Task, TaskStatus } from '../../models/task.model';
 import { Category } from '../../models/category.model';
-import { ButtonComponent } from '../ui/button/button.component';
 import { CategoryChipComponent } from '../ui/category-chip/category-chip.component';
 import { PriorityBadgeComponent } from '../ui/priority-badge/priority-badge.component';
 import { StatusBadgeComponent } from '../ui/status-badge/status-badge.component';
 import { TaskActionsComponent } from './task-actions.component';
+import { DueDateComponent } from '../ui/due-date/due-date';
 
 @Component({
   selector: 'app-task-card',
   standalone: true,
   imports: [
     CommonModule,
-    ButtonComponent,
     CategoryChipComponent,
     PriorityBadgeComponent,
     StatusBadgeComponent,
     TaskActionsComponent,
+    DueDateComponent,
   ],
   templateUrl: './task-card.html',
   styleUrl: './task-card.css',
@@ -45,23 +45,4 @@ export class TaskCard {
     return targetDate < today && this.task().status !== 'done';
   });
 
-  relativeDueDate = computed(() => {
-    const dueDate = this.task().dueDate;
-    if (!dueDate) return null;
-
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-
-    const targetDate = new Date(dueDate);
-    targetDate.setHours(0, 0, 0, 0);
-
-    const diffTime = targetDate.getTime() - today.getTime();
-    const diffDays = Math.round(diffTime / (1000 * 60 * 60 * 24));
-
-    if (diffDays === 0) return "Aujourd'hui";
-    if (diffDays === 1) return 'Demain';
-    if (diffDays === -1) return 'Hier';
-    if (diffDays > 1) return `Dans ${diffDays} jours`;
-    return `Il y a ${Math.abs(diffDays)} jours`;
-  });
 }

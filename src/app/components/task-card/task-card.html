@@ -25,14 +25,9 @@
       <app-category-chip [category]="cat"></app-category-chip>
     }
 
-    <!-- Date d'échéance (relative / overdue) -->
+    <!-- Date d'échéance (relative / urgency color) -->
     @if (t.dueDate) {
-      <span [class.overdue-text]="overdue">
-        {{ relativeDueDate() }}
-        @if (overdue) {
-          <span>(En retard)</span>
-        }
-      </span>
+      <app-due-date [date]="t.dueDate" [overdue]="overdue"></app-due-date>
     }
   </div>
 
