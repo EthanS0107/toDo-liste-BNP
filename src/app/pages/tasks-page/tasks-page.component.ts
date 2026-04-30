@@ -5,14 +5,14 @@ import { debounceTime } from 'rxjs';
 import { TaskService } from '../../services/task.service';
 import { TaskList } from '../../components/task-list/task-list';
 import { DashboardComponent } from '../../components/dashboard/dashboard.component';
-import { StatusFilter } from '../../components/status-filter/status-filter.component';
-import { TaskStatus, Task } from '../../models/task.model';
+import { TaskFilterComponent } from '../../components/task-filter/task-filter.component';
+import { TaskStatus, Task, TaskFilterState } from '../../models/task.model';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-tasks-page',
   standalone: true,
-  imports: [TaskList, DashboardComponent, StatusFilter, CommonModule],
+  imports: [TaskList, DashboardComponent, TaskFilterComponent, CommonModule],
   template: `
     @let categories = taskService.categories();
     @let priorities = taskService.priorities();
@@ -23,65 +23,11 @@ import { CommonModule } from '@angular/common';
 
       <app-dashboard />
 
-      <div>
-        <input
-          type="search"
-          #searchInput
-          placeholder="Rechercher une tâche..."
-          (input)="searchQuery.set(searchInput.value)"
-        />
-      </div>
-
-      <!-- Filtres par statut -->
-      <app-status-filter
-        [selected]="selectedStatus()"
-        (selectedChange)="selectedStatus.set($event)"
+      <app-task-filter
+        [categories]="categories"
+        [priorities]="priorities"
+        (filterChange)="onFilterChange($event)"
       />
-
-      <!-- Filtres par catégorie -->
-      <div class="category-filter">
-        <select
-          class="category-select"
-          #catSelect
-          (change)="selectedCategory.set(catSelect.value || null)"
-        >
-          <option value="">Toutes les catégories</option>
-          @for (cat of categories; track cat.id) {
-            <option [value]="cat.id" [selected]="selectedCategory() === cat.id">
-              {{ cat.name }}
-            </option>
-          }
-        </select>
-      </div>
-
-      <!-- Filtres par priorité -->
-      <div class="priority-filter">
-        <select
-          class="priority-select"
-          #prioritySelect
-          (change)="selectedPriority.set(prioritySelect.value || null)"
-        >
-          <option value="">Toutes les priorités</option>
-          @for (priority of priorities; track priority.id) {
-            <option [value]="priority.id" [selected]="selectedPriority() === priority.id">
-              {{ priority.name }}
-            </option>
-          }
-        </select>
-      </div>
-
-      <!-- Filtre de tri -->
-      <div class="sort-filter">
-        <select
-          class="sort-select"
-          [value]="sortField()"
-          (change)="sortField.set($any($event.target).value)"
-        >
-          <option value="date">Trier par Date</option>
-          <option value="priority">Trier par Priorité</option>
-          <option value="title">Trier par Titre</option>
-        </select>
-      </div>
 
       <app-task-list
         [tasks]="sortedTasks()"
@@ -98,14 +44,6 @@ import { CommonModule } from '@angular/common';
 export class TasksPage {
   protected taskService = inject(TaskService);
   private router = inject(Router);
-
-  searchInputRef = viewChild<ElementRef<HTMLInputElement>>('searchInput');
-
-  constructor() {
-    effect(() => {
-      this.searchInputRef()?.nativeElement.focus();
-    });
-  }
 
   // Signaux pour l'état des filtres
   searchQuery = signal<string>('');
@@ -156,8 +94,12 @@ export class TasksPage {
     }
   });
 
-  setStatusFilter(status: TaskStatus | null) {
-    this.selectedStatus.set(status);
+  onFilterChange(filters: TaskFilterState) {
+    this.searchQuery.set(filters.search);
+    this.selectedStatus.set(filters.status);
+    this.selectedCategory.set(filters.categoryId);
+    this.selectedPriority.set(filters.priority);
+    this.sortField.set(filters.sortBy);
   }
 
   onTaskDeleted(id: string) {

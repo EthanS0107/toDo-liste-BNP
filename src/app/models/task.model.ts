@@ -47,3 +47,12 @@ export const NEXT_STATUS: Record<TaskStatus, TaskStatus> = {
   'in-progress': 'done',
   done: 'done',
 };
+
+// Interface pour l'état des filtres
+export interface TaskFilterState {
+  search: string;
+  status: TaskStatus | null;
+  categoryId: string | null;
+  priority: string | null;
+  sortBy: 'date' | 'priority' | 'title';
+}
