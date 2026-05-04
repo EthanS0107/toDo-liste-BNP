@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { TaskService } from '../../services/task.service';
 
 @Component({
-  selector: 'app-dashboard',
+  selector: 'app-stats-dashboard',
   standalone: true,
   imports: [CommonModule],
   template: `
