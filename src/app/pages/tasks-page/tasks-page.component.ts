@@ -8,19 +8,26 @@ import { TaskFilterComponent } from '../../components/task-filter/task-filter.co
 import { PageHeader } from '../../components/shared/page-header/page-header';
 import { EmptyStateComponent } from '../../components/ui/empty-state/empty-state.component';
 import { TaskStatus, Task, TaskFilterState } from '../../models/task.model';
+import { StatsSkeletonComponent } from '../../components/dashboard/stats-skeleton.component';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-tasks-page',
   standalone: true,
-  imports: [TaskList, DashboardComponent, TaskFilterComponent, CommonModule, PageHeader, EmptyStateComponent],
+  imports: [TaskList, DashboardComponent, StatsSkeletonComponent, TaskFilterComponent, CommonModule, PageHeader, EmptyStateComponent],
   template: `
     @let categories = taskService.categories();
     @let priorities = taskService.priorities();
     <div class="tasks-page-container">
       <app-page-header> Mes Tâches </app-page-header>
 
-      <app-dashboard />
+      @defer (on viewport) {
+        <app-stats-dashboard />
+      } @placeholder {
+        <app-stats-skeleton />
+      } @loading {
+        <div>Chargement...</div>
+      }
 
       <app-task-filter
         [categories]="categories"
