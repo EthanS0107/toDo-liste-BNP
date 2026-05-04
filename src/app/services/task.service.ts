@@ -1,11 +1,13 @@
-import { Injectable, signal, computed, effect } from '@angular/core';
+import { Injectable, signal, computed, effect, inject } from '@angular/core';
 import { Task, TaskStatus, DEFAULT_PRIORITIES, Priority } from '../models/task.model';
 import { Category, DEFAULT_CATEGORIES } from '../models/category.model';
+import { StorageService } from './storage.service';
 
 const STORAGE_KEY = 'bnp-todo-tasks';
 
 @Injectable({ providedIn: 'root' })
 export class TaskService {
+  private storage = inject(StorageService);
   private tasksSignal = signal<Task[]>(this.loadFromStorage());
 
   readonly tasks = this.tasksSignal.asReadonly();
@@ -39,11 +41,7 @@ export class TaskService {
     // Persistance automatique dès qu'une tâche change
     effect(() => {
       const list = this.tasksSignal();
-      try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
-      } catch {
-        // stockage indisponible, on ignore
-      }
+      this.storage.setItem(STORAGE_KEY, list);
     });
   }
 
@@ -91,18 +89,14 @@ export class TaskService {
   }
 
   private loadFromStorage(): Task[] {
-    try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if (!raw) return [];
-      const parsed = JSON.parse(raw) as Task[];
-      return parsed.map((t) => ({
-        ...t,
-        dueDate: t.dueDate ? new Date(t.dueDate) : null,
-        createdAt: new Date(t.createdAt),
-        updatedAt: new Date(t.updatedAt),
-      }));
-    } catch {
-      return [];
-    }
+    const parsed = this.storage.getItem<Task[]>(STORAGE_KEY);
+    if (!parsed) return [];
+
+    return parsed.map((t) => ({
+      ...t,
+      dueDate: t.dueDate ? new Date(t.dueDate) : null,
+      createdAt: new Date(t.createdAt),
+      updatedAt: new Date(t.updatedAt),
+    }));
   }
 }
