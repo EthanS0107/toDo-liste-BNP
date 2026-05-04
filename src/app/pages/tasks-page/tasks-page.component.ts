@@ -1,13 +1,4 @@
-import {
-  Component,
-  inject,
-  signal,
-  computed,
-  linkedSignal,
-  viewChild,
-  ElementRef,
-  effect,
-} from '@angular/core';
+import { Component, inject, signal, computed, linkedSignal } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 import { debounceTime } from 'rxjs';
@@ -16,13 +7,14 @@ import { TaskList } from '../../components/task-list/task-list';
 import { DashboardComponent } from '../../components/dashboard/dashboard.component';
 import { TaskFilterComponent } from '../../components/task-filter/task-filter.component';
 import { PageHeader } from '../../components/shared/page-header/page-header';
+import { EmptyStateComponent } from '../../components/ui/empty-state/empty-state.component';
 import { TaskStatus, Task, TaskFilterState } from '../../models/task.model';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-tasks-page',
   standalone: true,
-  imports: [TaskList, DashboardComponent, TaskFilterComponent, CommonModule, PageHeader],
+  imports: [TaskList, DashboardComponent, TaskFilterComponent, CommonModule, PageHeader, EmptyStateComponent],
   template: `
     @let categories = taskService.categories();
     @let priorities = taskService.priorities();
@@ -37,14 +29,22 @@ import { CommonModule } from '@angular/common';
         (filterChange)="onFilterChange($event)"
       />
 
-      <app-task-list
-        [tasks]="sortedTasks()"
-        [categories]="categories"
-        [priorities]="priorities"
-        (taskDeleted)="onTaskDeleted($event)"
-        (taskEdited)="onTaskEdited($event)"
-        (taskStatusChanged)="onTaskStatusChanged($event)"
-      />
+      @if (filteredTasks().length === 0) {
+        <app-empty-state
+          icon="📭"
+          title="Aucune tâche trouvée"
+          message="Aucune tâche ne correspond aux filtres sélectionnés."
+        />
+      } @else {
+        <app-task-list
+          [tasks]="sortedTasks()"
+          [categories]="categories"
+          [priorities]="priorities"
+          (taskDeleted)="onTaskDeleted($event)"
+          (taskEdited)="onTaskEdited($event)"
+          (taskStatusChanged)="onTaskStatusChanged($event)"
+        />
+      }
     </div>
   `,
   styleUrls: ['./tasks-page.component.css'],
