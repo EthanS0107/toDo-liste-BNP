@@ -9,12 +9,13 @@ import { PageHeader } from '../../components/shared/page-header/page-header';
 import { EmptyStateComponent } from '../../components/ui/empty-state/empty-state.component';
 import { TaskStatus, Task, TaskFilterState } from '../../models/task.model';
 import { StatsSkeletonComponent } from '../../components/dashboard/stats-skeleton.component';
+import { TaskSkeletonComponent } from '../../components/task-list/task-skeleton.component';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-tasks-page',
   standalone: true,
-  imports: [TaskList, DashboardComponent, StatsSkeletonComponent, TaskFilterComponent, CommonModule, PageHeader, EmptyStateComponent],
+  imports: [TaskList, DashboardComponent, StatsSkeletonComponent, TaskSkeletonComponent, TaskFilterComponent, CommonModule, PageHeader, EmptyStateComponent],
   template: `
     @let categories = taskService.categories();
     @let priorities = taskService.priorities();
@@ -35,21 +36,27 @@ import { CommonModule } from '@angular/common';
         (filterChange)="onFilterChange($event)"
       />
 
-      @if (filters.filteredTasks().length === 0) {
-        <app-empty-state
-          icon="📭"
-          title="Aucune tâche trouvée"
-          message="Aucune tâche ne correspond aux filtres sélectionnés."
-        />
-      } @else {
-        <app-task-list
-          [tasks]="filters.sortedTasks()"
-          [categories]="categories"
-          [priorities]="priorities"
-          (taskDeleted)="onTaskDeleted($event)"
-          (taskEdited)="onTaskEdited($event)"
-          (taskStatusChanged)="onTaskStatusChanged($event)"
-        />
+      @defer (on idle; on interaction) {
+        <div class="fade-in">
+          @if (filters.filteredTasks().length === 0) {
+            <app-empty-state
+              icon="📭"
+              title="Aucune tâche trouvée"
+              message="Aucune tâche ne correspond aux filtres sélectionnés."
+            />
+          } @else {
+            <app-task-list
+              [tasks]="filters.sortedTasks()"
+              [categories]="categories"
+              [priorities]="priorities"
+              (taskDeleted)="onTaskDeleted($event)"
+              (taskEdited)="onTaskEdited($event)"
+              (taskStatusChanged)="onTaskStatusChanged($event)"
+            />
+          }
+        </div>
+      } @placeholder {
+        <app-task-skeleton />
       }
     </div>
   `,
