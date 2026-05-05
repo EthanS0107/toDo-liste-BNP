@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { TaskService } from '../../services/task.service';
 import { TaskFiltersService } from '../../services/task-filters.service';
 import { TaskList } from '../../components/task-list/task-list';
@@ -24,6 +24,7 @@ import { CommonModule } from '@angular/common';
     CommonModule,
     PageHeader,
     EmptyStateComponent,
+    RouterLink,
   ],
   template: `
     @let categories = taskService.categories();
@@ -46,12 +47,26 @@ import { CommonModule } from '@angular/common';
       />
 
       @defer (on idle; on interaction) {
-        @if (filters.filteredTasks().length === 0) {
+        @if (taskService.tasks().length === 0) {
           <app-empty-state
-            icon="📭"
-            title="Aucune tâche trouvée"
-            message="Aucune tâche ne correspond aux filtres sélectionnés."
-          />
+            type="empty-tasks"
+            title="Prêt à être productif ?"
+            message="Commencez par ajouter votre première tâche pour organiser votre journée."
+          >
+            <button class="primary" routerLink="/tasks/new">
+              Créer ma première tâche
+            </button>
+          </app-empty-state>
+        } @else if (filters.filteredTasks().length === 0) {
+          <app-empty-state
+            type="no-results"
+            title="Aucun résultat trouvé"
+            message="Nous n'avons trouvé aucune tâche correspondant à vos critères de recherche."
+          >
+            <button (click)="filters.resetFilters()">
+              Réinitialiser les filtres
+            </button>
+          </app-empty-state>
         } @else {
           <app-task-list
             [tasks]="filters.sortedTasks()"

@@ -66,4 +66,12 @@ export class TaskFiltersService {
     this.selectedPriority.set(filters.priority);
     this.sortField.set(filters.sortBy);
   }
+
+  resetFilters(): void {
+    this.searchQuery.set('');
+    this.selectedStatus.set(null);
+    this.selectedCategory.set(null);
+    this.selectedPriority.set(null);
+    this.sortField.set('manual');
+  }
 }
