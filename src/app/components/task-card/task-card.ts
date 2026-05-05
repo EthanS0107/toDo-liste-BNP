@@ -1,5 +1,6 @@
 import { Component, input, output, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { trigger, state, style, animate, transition } from '@angular/animations';
 import { Task, TaskStatus } from '../../models/task.model';
 import { Category } from '../../models/category.model';
 import { CategoryChipComponent } from '../ui/category-chip/category-chip.component';
@@ -23,6 +24,33 @@ import { TaskActionsComponent } from './task-actions.component';
   ],
   templateUrl: './task-card.html',
   styleUrl: './task-card.css',
+  animations: [
+    trigger('statusColor', [
+      state(
+        'todo',
+        style({
+          backgroundColor: 'var(--color-bg-panel)',
+          borderColor: 'var(--color-gray-200)',
+        }),
+      ),
+      state(
+        'in-progress',
+        style({
+          backgroundColor: '#f0f9ff' /* très léger bleu */,
+          borderColor: '#bae6fd',
+        }),
+      ),
+      state(
+        'done',
+        style({
+          backgroundColor: '#f8fafc' /* très léger gris */,
+          borderColor: '#e2e8f0',
+          opacity: 0.8,
+        }),
+      ),
+      transition('* <=> *', [animate('300ms ease-in-out')]),
+    ]),
+  ],
 })
 export class TaskCard {
   // Inputs (Signals)
