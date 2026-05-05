@@ -12,12 +12,11 @@ export class TaskFiltersService {
   readonly selectedStatus = signal<TaskStatus | null>(null);
   readonly selectedCategory = signal<string | null>(null);
   readonly selectedPriority = signal<string | null>(null);
-  readonly sortField = signal<'date' | 'priority' | 'title'>('date');
+  readonly sortField = signal<'date' | 'priority' | 'title' | 'manual'>('manual');
 
-  private debouncedSearchQuery = toSignal(
-    toObservable(this.searchQuery).pipe(debounceTime(300)),
-    { initialValue: '' },
-  );
+  private debouncedSearchQuery = toSignal(toObservable(this.searchQuery).pipe(debounceTime(300)), {
+    initialValue: '',
+  });
 
   readonly filteredTasks = computed(() => {
     const search = this.debouncedSearchQuery().toLowerCase().trim();
@@ -51,8 +50,10 @@ export class TaskFiltersService {
           case 'priority':
             return (priorityWeight[b.priority] || 0) - (priorityWeight[a.priority] || 0);
           case 'date':
-          default:
             return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+          case 'manual':
+          default:
+            return 0; // Conserve l'ordre du store (TaskService)
         }
       });
     },

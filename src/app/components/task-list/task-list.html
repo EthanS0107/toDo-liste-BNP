@@ -1,11 +1,15 @@
-@for (task of tasks(); track task.id) {
-  <app-task-card
-    [task]="task"
-    [category]="categoryFor(task.categoryId)"
-    (deleted)="taskDeleted.emit($event)"
-    (edited)="taskEdited.emit($event)"
-    (statusChanged)="taskStatusChanged.emit($event)"
-  />
-} @empty {
-  <p>Aucune tâche pour le moment.</p>
-}
+<div cdkDropList class="task-list-container" (cdkDropListDropped)="drop($event)">
+  @for (task of tasks(); track task.id) {
+    <div cdkDrag class="drag-item">
+      <app-task-card
+        [task]="task"
+        [category]="categoryFor(task.categoryId)"
+        (deleted)="taskDeleted.emit($event)"
+        (edited)="taskEdited.emit($event)"
+        (statusChanged)="taskStatusChanged.emit($event)"
+      />
+    </div>
+  } @empty {
+    <p>Aucune tâche pour le moment.</p>
+  }
+</div>

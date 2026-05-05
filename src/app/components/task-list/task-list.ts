@@ -1,4 +1,5 @@
 import { Component, input, output, computed, viewChildren } from '@angular/core';
+import { CdkDragDrop, CdkDropList, CdkDrag, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Task, TaskStatus, Priority } from '../../models/task.model';
 import { Category } from '../../models/category.model';
 import { TaskCard } from '../task-card/task-card';
@@ -6,7 +7,7 @@ import { TaskCard } from '../task-card/task-card';
 @Component({
   selector: 'app-task-list',
   standalone: true,
-  imports: [TaskCard],
+  imports: [TaskCard, CdkDropList, CdkDrag],
   templateUrl: './task-list.html',
 })
 export class TaskList {
@@ -18,6 +19,11 @@ export class TaskList {
   taskDeleted = output<string>();
   taskEdited = output<Task>();
   taskStatusChanged = output<{ id: string; status: TaskStatus }>();
+  taskReordered = output<{
+    taskId: string;
+    targetSiblingId: string;
+    position: 'before' | 'after';
+  }>();
 
   // Index des catégories par id, recalculé quand la liste change
   private categoryMap = computed(() => {
@@ -28,5 +34,25 @@ export class TaskList {
 
   categoryFor(id: string): Category | null {
     return this.categoryMap().get(id) ?? null;
+  }
+
+  drop(event: CdkDragDrop<Task[]>) {
+    if (event.previousIndex === event.currentIndex) {
+      return;
+    }
+
+    const currentList = this.tasks();
+    const draggedTask = currentList[event.previousIndex];
+    const targetTask = currentList[event.currentIndex];
+
+    // Calculer la position relative en fonction du sens du drag
+    const position: 'before' | 'after' =
+      event.previousIndex > event.currentIndex ? 'before' : 'after';
+
+    this.taskReordered.emit({
+      taskId: draggedTask.id,
+      targetSiblingId: targetTask.id,
+      position,
+    });
   }
 }
