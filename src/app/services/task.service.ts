@@ -19,7 +19,7 @@ export class TaskService {
   readonly stats = computed(() => {
     const list = this.tasks();
     const now = new Date();
-    
+
     // Début de la semaine en cours (Lundi)
     const startOfWeek = new Date(now);
     const day = startOfWeek.getDay() || 7; // Dimanche devient 7
@@ -32,8 +32,11 @@ export class TaskService {
       todo: list.filter((t) => t.status === 'todo').length,
       inProgress: list.filter((t) => t.status === 'in-progress').length,
       done: list.filter((t) => t.status === 'done').length,
-      overdue: list.filter((t) => t.status !== 'done' && t.dueDate && new Date(t.dueDate) < now).length,
-      completedThisWeek: list.filter((t) => t.status === 'done' && new Date(t.updatedAt) >= startOfWeek).length,
+      overdue: list.filter((t) => t.status !== 'done' && t.dueDate && new Date(t.dueDate) < now)
+        .length,
+      completedThisWeek: list.filter(
+        (t) => t.status === 'done' && new Date(t.updatedAt) >= startOfWeek,
+      ).length,
     };
   });
 
@@ -76,6 +79,29 @@ export class TaskService {
 
   updateStatus(id: string, newStatus: TaskStatus) {
     this.updateTask(id, { status: newStatus });
+  }
+
+  reorderTask(taskId: string, targetSiblingId: string, position: 'before' | 'after') {
+    this.tasksSignal.update((tasks) => {
+      const arr = [...tasks];
+      const taskIndex = arr.findIndex((t) => t.id === taskId);
+      if (taskIndex === -1) return tasks;
+
+      const [task] = arr.splice(taskIndex, 1);
+
+      let targetIndex = arr.findIndex((t) => t.id === targetSiblingId);
+      if (targetIndex === -1) {
+        arr.push(task); // Fallback: put at the end
+        return arr;
+      }
+
+      if (position === 'after') {
+        targetIndex++;
+      }
+
+      arr.splice(targetIndex, 0, task);
+      return arr;
+    });
   }
 
   toggleDone(id: string) {
