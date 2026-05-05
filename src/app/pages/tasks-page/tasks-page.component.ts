@@ -9,6 +9,7 @@ import { PageHeader } from '../../components/shared/page-header/page-header';
 import { EmptyStateComponent } from '../../components/ui/empty-state/empty-state.component';
 import { TaskStatus, Task, TaskFilterState } from '../../models/task.model';
 import { StatsSkeletonComponent } from '../../components/dashboard/stats-skeleton.component';
+import { TaskSkeletonComponent } from '../../components/task-list/task-skeleton.component';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -18,6 +19,7 @@ import { CommonModule } from '@angular/common';
     TaskList,
     DashboardComponent,
     StatsSkeletonComponent,
+    TaskSkeletonComponent,
     TaskFilterComponent,
     CommonModule,
     PageHeader,
@@ -43,22 +45,26 @@ import { CommonModule } from '@angular/common';
         (filterChange)="onFilterChange($event)"
       />
 
-      @if (filters.filteredTasks().length === 0) {
-        <app-empty-state
-          icon="📭"
-          title="Aucune tâche trouvée"
-          message="Aucune tâche ne correspond aux filtres sélectionnés."
-        />
-      } @else {
-        <app-task-list
-          [tasks]="filters.sortedTasks()"
-          [categories]="categories"
-          [priorities]="priorities"
-          (taskDeleted)="onTaskDeleted($event)"
-          (taskEdited)="onTaskEdited($event)"
-          (taskStatusChanged)="onTaskStatusChanged($event)"
-          (taskReordered)="onTaskReordered($event)"
-        />
+      @defer (on idle; on interaction) {
+        @if (filters.filteredTasks().length === 0) {
+          <app-empty-state
+            icon="📭"
+            title="Aucune tâche trouvée"
+            message="Aucune tâche ne correspond aux filtres sélectionnés."
+          />
+        } @else {
+          <app-task-list
+            [tasks]="filters.sortedTasks()"
+            [categories]="categories"
+            [priorities]="priorities"
+            (taskDeleted)="onTaskDeleted($event)"
+            (taskEdited)="onTaskEdited($event)"
+            (taskStatusChanged)="onTaskStatusChanged($event)"
+            (taskReordered)="onTaskReordered($event)"
+          />
+        }
+      } @placeholder {
+        <app-task-skeleton />
       }
     </div>
   `,
