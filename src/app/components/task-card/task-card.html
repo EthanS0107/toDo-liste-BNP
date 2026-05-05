@@ -1,7 +1,7 @@
 @let t = task();
 @let cat = category();
 @let overdue = t.dueDate | isOverdue: t.status;
-<div [class.overdue]="overdue">
+<div [class.overdue]="overdue" [@statusColor]="t.status">
   <!-- En-tête : Titre et Priorité -->
   <div>
     <h3 [class.done]="t.status === 'done'">
@@ -27,8 +27,8 @@
 
     <!-- Date d'échéance (relative / overdue) -->
     @if (t.dueDate) {
-      <app-due-date 
-        [date]="t.dueDate" 
+      <app-due-date
+        [date]="t.dueDate"
         [overdue]="overdue"
         [isCompleted]="t.status === 'done'"
       ></app-due-date>
