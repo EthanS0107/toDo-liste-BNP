@@ -54,5 +54,5 @@ export interface TaskFilterState {
   status: TaskStatus | null;
   categoryId: string | null;
   priority: string | null;
-  sortBy: 'date' | 'priority' | 'title';
+  sortBy: 'date' | 'priority' | 'title' | 'manual';
 }

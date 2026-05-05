@@ -14,7 +14,15 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-tasks-page',
   standalone: true,
-  imports: [TaskList, DashboardComponent, StatsSkeletonComponent, TaskFilterComponent, CommonModule, PageHeader, EmptyStateComponent],
+  imports: [
+    TaskList,
+    DashboardComponent,
+    StatsSkeletonComponent,
+    TaskFilterComponent,
+    CommonModule,
+    PageHeader,
+    EmptyStateComponent,
+  ],
   template: `
     @let categories = taskService.categories();
     @let priorities = taskService.priorities();
@@ -22,9 +30,9 @@ import { CommonModule } from '@angular/common';
       <app-page-header> Mes Tâches </app-page-header>
 
       @defer (on viewport) {
-        <app-stats-dashboard />
+        <app-stats-dashboard></app-stats-dashboard>
       } @placeholder {
-        <app-stats-skeleton />
+        <app-stats-skeleton></app-stats-skeleton>
       } @loading {
         <div>Chargement...</div>
       }
@@ -49,6 +57,7 @@ import { CommonModule } from '@angular/common';
           (taskDeleted)="onTaskDeleted($event)"
           (taskEdited)="onTaskEdited($event)"
           (taskStatusChanged)="onTaskStatusChanged($event)"
+          (taskReordered)="onTaskReordered($event)"
         />
       }
     </div>
@@ -74,5 +83,9 @@ export class TasksPage {
 
   onTaskStatusChanged(data: { id: string; status: TaskStatus }) {
     this.taskService.updateStatus(data.id, data.status);
+  }
+
+  onTaskReordered(data: { taskId: string; targetSiblingId: string; position: 'before' | 'after' }) {
+    this.taskService.reorderTask(data.taskId, data.targetSiblingId, data.position);
   }
 }

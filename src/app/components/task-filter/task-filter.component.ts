@@ -12,12 +12,12 @@ import { StatusFilter } from '../status-filter/status-filter.component';
   standalone: true,
   imports: [CommonModule, FormsModule, ButtonComponent, FormFieldComponent, StatusFilter],
   templateUrl: './task-filter.component.html',
-  styleUrls: ['./task-filter.component.css']
+  styleUrls: ['./task-filter.component.css'],
 })
 export class TaskFilterComponent {
   categories = input<Category[]>([]);
-  priorities = input<{id: string, name: string}[]>([]);
-  
+  priorities = input<{ id: string; name: string }[]>([]);
+
   filterChange = output<TaskFilterState>();
 
   // Signaux internes pour l'état des filtres
@@ -25,7 +25,7 @@ export class TaskFilterComponent {
   status = signal<TaskStatus | null>(null);
   categoryId = signal<string | null>(null);
   priority = signal<string | null>(null);
-  sortBy = signal<'date' | 'priority' | 'title'>('date');
+  sortBy = signal<'date' | 'priority' | 'title' | 'manual'>('manual');
 
   searchInputRef = viewChild<ElementRef<HTMLInputElement>>('searchInput');
 
@@ -42,7 +42,7 @@ export class TaskFilterComponent {
         status: this.status(),
         categoryId: this.categoryId(),
         priority: this.priority(),
-        sortBy: this.sortBy()
+        sortBy: this.sortBy(),
       });
     });
   }
@@ -55,6 +55,6 @@ export class TaskFilterComponent {
     this.status.set(null);
     this.categoryId.set(null);
     this.priority.set(null);
-    this.sortBy.set('date');
+    this.sortBy.set('manual');
   }
 }
