@@ -9,7 +9,7 @@
 button {
   padding: 0.65rem 1rem;
   border: 1.5px solid var(--color-gray-300);
-  background-color: white;
+  background-color: var(--color-bg-panel);
   color: var(--color-gray-700);
   border-radius: 4px;
   font-size: 0.9rem;
