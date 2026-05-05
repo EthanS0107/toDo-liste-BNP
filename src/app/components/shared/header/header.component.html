@@ -11,7 +11,17 @@
           <span class="badge">{{ taskService.tasks().length }}</span>
         }
       </a>
-
+      <button
+        (click)="themeService.toggleTheme()"
+        class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+        [title]="themeService.isDarkMode() ? 'Passer au clair' : 'Passer au sombre'"
+      >
+        @if (themeService.isDarkMode()) {
+          <span role="img" aria-label="soleil">mode claire</span>
+        } @else {
+          <span role="img" aria-label="lune">mode sombre</span>
+        }
+      </button>
       <app-button variant="primary" routerLink="/tasks/new">+ Nouvelle tâche</app-button>
     </nav>
   </div>

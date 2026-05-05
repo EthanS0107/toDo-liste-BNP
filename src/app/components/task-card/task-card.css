@@ -1,6 +1,6 @@
 /* Conteneur principal de la carte */
 div {
-  background-color: white;
+  background-color: var(--color-bg-panel);
   border: 1px solid var(--color-gray-200);
   border-radius: 6px;
   padding: 1.25rem;
