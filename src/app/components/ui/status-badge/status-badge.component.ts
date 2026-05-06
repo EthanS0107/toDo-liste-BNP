@@ -17,26 +17,7 @@ import { BadgeColorService } from '../../../services/badge-color.service';
       {{ label() }}
     </span>
   `,
-  styles: `
-    .status-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.35rem;
-      padding: 0.35rem 0.65rem;
-      border-radius: 4px;
-      font-size: 0.8rem;
-      font-weight: 600;
-      white-space: nowrap;
-      transition: all 0.2s ease;
-    }
-
-    .badge-dot {
-      display: inline-block;
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-    }
-  `,
+  styleUrl: './status-badge.component.css',
 })
 export class StatusBadgeComponent {
   status = input.required<TaskStatus>();

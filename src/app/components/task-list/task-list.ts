@@ -1,6 +1,5 @@
 import { Component, input, output, computed, viewChildren } from '@angular/core';
 import { CdkDragDrop, CdkDropList, CdkDrag, moveItemInArray } from '@angular/cdk/drag-drop';
-import { trigger, transition, style, animate } from '@angular/animations';
 import { Task, TaskStatus, Priority } from '../../models/task.model';
 import { Category } from '../../models/category.model';
 import { TaskCard } from '../task-card/task-card';
@@ -10,17 +9,6 @@ import { TaskCard } from '../task-card/task-card';
   standalone: true,
   imports: [TaskCard, CdkDropList, CdkDrag],
   templateUrl: './task-list.html',
-  animations: [
-    trigger('taskAnimation', [
-      transition(':enter', [
-        style({ opacity: 0, transform: 'translateX(-50px)' }),
-        animate('300ms ease-out'),
-      ]),
-      transition(':leave', [
-        animate('300ms ease-in', style({ opacity: 0, transform: 'scale(0.95)' })),
-      ]),
-    ]),
-  ],
 })
 export class TaskList {
   taskCards = viewChildren(TaskCard);
