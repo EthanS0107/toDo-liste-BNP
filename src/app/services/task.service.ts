@@ -2,12 +2,14 @@ import { Injectable, signal, computed, effect, inject } from '@angular/core';
 import { Task, TaskStatus, DEFAULT_PRIORITIES, Priority } from '../models/task.model';
 import { Category, DEFAULT_CATEGORIES } from '../models/category.model';
 import { StorageService } from './storage.service';
+import { ToastService } from './toast.service';
 
 const STORAGE_KEY = 'bnp-todo-tasks';
 
 @Injectable({ providedIn: 'root' })
 export class TaskService {
   private storage = inject(StorageService);
+  private toast = inject(ToastService);
   private tasksSignal = signal<Task[]>(this.loadFromStorage());
 
   readonly tasks = this.tasksSignal.asReadonly();
@@ -54,27 +56,45 @@ export class TaskService {
 
   addTask(taskData: Partial<Task>) {
     const newTask: Task = {
-      id: crypto.randomUUID(),
+      id: (taskData as any).id || crypto.randomUUID(),
       title: taskData.title?.trim() || 'Sans titre',
       description: taskData.description ?? '',
       status: taskData.status ?? 'todo',
       priority: taskData.priority ?? 'medium',
       categoryId: taskData.categoryId ?? '',
       dueDate: taskData.dueDate ?? null,
-      createdAt: new Date(),
+      createdAt: (taskData as any).createdAt || new Date(),
       updatedAt: new Date(),
     };
     this.tasksSignal.update((tasks) => [...tasks, newTask]);
+    
+    // On n'affiche le toast que pour les nouvelles tâches (pas pour l'Undo)
+    if (!(taskData as any).id) {
+      this.toast.success('Tâche créée avec succès');
+    }
   }
 
   updateTask(id: string, updates: Partial<Task>) {
     this.tasksSignal.update((tasks) =>
       tasks.map((t) => (t.id === id ? { ...t, ...updates, updatedAt: new Date() } : t)),
     );
+    this.toast.info('Tâche mise à jour');
   }
 
   deleteTask(id: string) {
+    const taskToDelete = this.getTaskById(id);
+    if (!taskToDelete) return;
+
     this.tasksSignal.update((tasks) => tasks.filter((t) => t.id !== id));
+
+    this.toast.warning(`Tâche "${taskToDelete.title}" supprimée`, {
+      action: {
+        label: 'Annuler',
+        callback: () => {
+          this.addTask(taskToDelete);
+        },
+      },
+    });
   }
 
   updateStatus(id: string, newStatus: TaskStatus) {
