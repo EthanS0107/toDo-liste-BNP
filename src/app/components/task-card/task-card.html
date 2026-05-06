@@ -1,7 +1,7 @@
 @let t = task();
 @let cat = category();
 @let overdue = t.dueDate | isOverdue: t.status;
-<div [class.overdue]="overdue" [@statusColor]="t.status">
+<div [class.overdue]="overdue" [ngClass]="'status-' + t.status">
   <!-- En-tête : Titre et Priorité -->
   <div>
     <h3 [class.done]="t.status === 'done'">

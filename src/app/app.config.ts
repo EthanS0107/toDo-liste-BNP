@@ -1,7 +1,6 @@
 // src/app/app.config.ts
 import { ApplicationConfig, provideZonelessChangeDetection } from '@angular/core';
 import { provideRouter, withComponentInputBinding } from '@angular/router';
-import { provideAnimations } from '@angular/platform-browser/animations';
 import { routes } from './app.routes';
 
 export const appConfig: ApplicationConfig = {
@@ -11,8 +10,5 @@ export const appConfig: ApplicationConfig = {
 
     // Configure le routeur avec les routes définies et active le binding des paramètres de route aux entrées (@Input) des composants
     provideRouter(routes, withComponentInputBinding()),
-
-    // Fournit les animations
-    provideAnimations(),
   ],
 };

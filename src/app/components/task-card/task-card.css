@@ -17,6 +17,17 @@ div.overdue {
   border-left: 4px solid var(--color-red);
 }
 
+div.status-in-progress {
+  background-color: #f0f9ff; /* très léger bleu */
+  border-color: #bae6fd;
+}
+
+div.status-done {
+  background-color: #f8fafc; /* très léger gris */
+  border-color: #e2e8f0;
+  opacity: 0.8;
+}
+
 /* En-tête avec titre et priorité */
 div:nth-child(1) {
   display: flex;
