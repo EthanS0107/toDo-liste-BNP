@@ -1,28 +1,36 @@
 <header class="main-header">
   <div class="header-container">
-    <a class="logo" routerLink="/">
-      <img src="/logo-bnp.jpg" alt="Logo BNP Paribas" />
-    </a>
-
-    <nav class="nav-menu">
-      <a routerLink="/tasks" routerLinkActive="active" class="nav-link">
-        Mes Tâches
-        @if (taskService.tasks().length > 0) {
-          <span class="badge">{{ taskService.tasks().length }}</span>
-        }
-      </a>
-      <button
-        (click)="themeService.toggleTheme()"
-        class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-        [title]="themeService.isDarkMode() ? 'Passer au clair' : 'Passer au sombre'"
-      >
-        @if (themeService.isDarkMode()) {
-          <span role="img" aria-label="soleil">mode claire</span>
-        } @else {
-          <span role="img" aria-label="lune">mode sombre</span>
-        }
-      </button>
-      <app-button variant="primary" routerLink="/tasks/new">+ Nouvelle tâche</app-button>
-    </nav>
+    <div class="header-content">
+      <div class="header-logo">
+        <img src="/bnp-icon.webp" alt="BNP Paribas" />
+        <div>
+          <div class="header-title">Espace collaborateur</div>
+          <div class="header-user">Nom Prénom · Agence Montreuil Valmy</div>
+        </div>
+      </div>
+      <div class="header-actions" style="display: flex; gap: 4px">
+        <button class="header-action">
+          <img src="/icons/search.svg" alt="Search" />
+        </button>
+        <button class="header-action">
+          <img src="/icons/notifications.svg" alt="Notifications" />
+        </button>
+        <button
+          class="header-action"
+          (click)="themeService.toggleTheme()"
+          [title]="themeService.isDarkMode() ? 'Passer au clair' : 'Passer au sombre'"
+        >
+          @if (themeService.isDarkMode()) {
+            <span role="img" aria-label="soleil" style="display: flex">
+              <img src="/icons/mode-light.svg" alt="Soleil" />
+            </span>
+          } @else {
+            <span role="img" aria-label="lune" style="display: flex">
+              <img src="/icons/mode-night.svg" alt="Lune" />
+            </span>
+          }
+        </button>
+      </div>
+    </div>
   </div>
 </header>
