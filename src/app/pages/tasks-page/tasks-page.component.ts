@@ -6,6 +6,7 @@ import { TaskList } from '../../components/task-list/task-list';
 import { DashboardComponent } from '../../components/dashboard/dashboard.component';
 import { TaskFilterComponent } from '../../components/task-filter/task-filter.component';
 import { DailyHeaderComponent } from '../../components/shared/daily-header/daily-header.component';
+import { CategoryTabsComponent } from '../../components/category-tabs/category-tabs.component';
 import { EmptyStateComponent } from '../../components/ui/empty-state/empty-state.component';
 import { TaskStatus, Task, TaskFilterState } from '../../models/task.model';
 import { StatsSkeletonComponent } from '../../components/dashboard/stats-skeleton.component';
@@ -23,6 +24,7 @@ import { CommonModule } from '@angular/common';
     TaskFilterComponent,
     CommonModule,
     DailyHeaderComponent,
+    CategoryTabsComponent,
     EmptyStateComponent,
     RouterLink,
   ],
@@ -45,6 +47,8 @@ import { CommonModule } from '@angular/common';
         [priorities]="priorities"
         (filterChange)="onFilterChange($event)"
       />
+
+      <app-category-tabs />
 
       @defer (on idle; on interaction) {
         @if (taskService.tasks().length === 0) {
