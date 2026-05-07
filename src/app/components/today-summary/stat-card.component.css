@@ -3,43 +3,34 @@
   min-width: 6.5rem;
   padding: 0.75rem 1rem;
   background-color: #fff;
-  border: 1px solid var(--color-gray-200, #e5e7eb);
+  border: 2px solid var(--color-gray-200, #e5e7eb);
   border-radius: 8px;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
-}
-
-.stat-card[data-variant='total'] {
-  border-top: 3px solid var(--color-gray-900, #111827);
-}
-
-.stat-header {
-  display: flex;
-  align-items: center;
   gap: 0.4rem;
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease;
 }
 
-.stat-indicator {
-  width: 0.55rem;
-  height: 0.55rem;
-  border-radius: 50%;
-  display: inline-block;
-  flex-shrink: 0;
+.stat-card:hover {
+  border-color: var(--color-gray-300, #d1d5db);
 }
 
-.stat-indicator[data-variant='total'] {
-  display: none;
+.stat-card.active[data-variant='total'] {
+  border-color: var(--color-gray-900, #111827);
 }
-.stat-indicator[data-variant='todo'] {
-  border: 1.5px solid var(--color-gray-400, #9ca3af);
-  background: transparent;
+.stat-card.active[data-variant='todo'] {
+  border-color: var(--color-gray-400, #9ca3af);
 }
-.stat-indicator[data-variant='in-progress'] {
-  background-color: #fb923c;
+.stat-card.active[data-variant='in-progress'] {
+  border-color: #fb923c;
 }
-.stat-indicator[data-variant='done'] {
-  background-color: var(--color-primary, #00965e);
+.stat-card.active[data-variant='done'] {
+  border-color: var(--color-primary, #00965e);
 }
 
 .stat-label {
