@@ -1,69 +1,52 @@
-.main-header {
-  background-color: var(--color-bg-panel);
-  border-bottom: 1px solid var(--color-gray-200);
-  position: sticky;
-  top: 0;
-  z-index: 100;
+.header-container {
+  padding: 14px 16px 12px;
+  background: rgb(244, 245, 243);
+  border-bottom: 1px solid rgb(221, 225, 220);
 }
 
-.header-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 1.5rem;
-  height: 64px;
+.header-content {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-.logo {
+.header-logo {
   display: flex;
   align-items: center;
-  text-decoration: none;
+  gap: 10px;
 }
 
-.logo img {
-  height: 36px;
-  width: auto;
-  display: block;
+.header-logo img {
+  width: 32px;
+  height: auto;
 }
 
-.nav-menu {
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
+.header-title {
+  font-family: 'IBM Plex Sans', 'Inter', system-ui, sans-serif;
+  font-size: 10px;
+  color: rgb(66, 81, 74);
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  font-weight: 600;
 }
 
-.nav-link {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  color: var(--color-gray-700);
-  text-decoration: none;
-  font-size: 0.95rem;
-  font-weight: 500;
-  padding: 0.5rem 0;
-  border-bottom: 2px solid transparent;
-  transition: color 0.15s, border-color 0.15s;
+.header-user {
+  font-family: 'IBM Plex Sans', 'Inter', system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: rgb(15, 26, 20);
+  letter-spacing: -0.1px;
 }
 
-.nav-link:hover {
-  color: var(--color-primary);
-}
-
-.nav-link.active {
-  color: var(--color-primary);
-  border-bottom-color: var(--color-primary);
-}
-
-.badge {
-  background-color: var(--color-primary);
-  color: white;
-  font-size: 0.75rem;
-  font-weight: 700;
-  padding: 0.2rem 0.5rem;
-  border-radius: 9999px;
-  line-height: 1.2;
+.header-action {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  background: transparent;
+  color: rgb(66, 81, 74);
   display: inline-flex;
   align-items: center;
   justify-content: center;
