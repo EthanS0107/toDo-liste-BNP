@@ -1,62 +1,70 @@
-import { Component, inject, computed } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TaskService } from '../../services/task.service';
+import { TaskFiltersService } from '../../services/task-filters.service';
+import { TaskStatus } from '../../models/task.model';
 
 @Component({
   selector: 'app-stats-dashboard',
   standalone: true,
   imports: [CommonModule],
   template: `
-    <div class="dashboard">
-      <div class="dashboard-cards">
-        <div class="card">
-          <div class="card-title">Total des tâches</div>
-          <div class="card-value">{{ total() }}</div>
-        </div>
-        <div class="card">
-          <div class="card-title">Complétées cette semaine</div>
-          <div class="card-value highlight">{{ stats().completedThisWeek }}</div>
-        </div>
-        
-        @if (stats().overdue > 0) {
-          <div class="card alert-card">
-            <div class="card-title">Tâches en retard</div>
-            <div class="card-value error">{{ stats().overdue }}</div>
-          </div>
-        }
-      </div>
+    <div class="stats-grid">
+      <button
+        type="button"
+        class="stat-card"
+        [class.active]="filters.selectedStatus() === null"
+        (click)="selectStatus(null)"
+      >
+        <span class="marker marker-total" aria-hidden="true"></span>
+        <span class="stat-label">TOTAL</span>
+        <span class="stat-value">{{ total() }}</span>
+      </button>
 
-      <!-- Status & Progression -->
-      <div class="progress-section">
-        <div class="status-counts">
-          <span class="status-badge todo">À faire : {{ stats().todo }}</span>
-          <span class="status-badge in-progress">En cours : {{ stats().inProgress }}</span>
-          <span class="status-badge done">Terminées : {{ stats().done }}</span>
-        </div>
-        
-        <div class="progress-container">
-          <div class="progress-bar-bg">
-            <div 
-              class="progress-bar-fill" 
-              [style.width.%]="progressPercentage()">
-            </div>
-          </div>
-          <div class="progress-text">{{ progressPercentage() }}% complété</div>
-        </div>
-      </div>
+      <button
+        type="button"
+        class="stat-card"
+        [class.active]="filters.selectedStatus() === 'todo'"
+        (click)="selectStatus('todo')"
+      >
+        <span class="marker marker-todo" aria-hidden="true"></span>
+        <span class="stat-label">À FAIRE</span>
+        <span class="stat-value">{{ stats().todo }}</span>
+      </button>
+
+      <button
+        type="button"
+        class="stat-card"
+        [class.active]="filters.selectedStatus() === 'in-progress'"
+        (click)="selectStatus('in-progress')"
+      >
+        <span class="marker marker-in-progress" aria-hidden="true"></span>
+        <span class="stat-label">EN COURS</span>
+        <span class="stat-value">{{ stats().inProgress }}</span>
+      </button>
+
+      <button
+        type="button"
+        class="stat-card"
+        [class.active]="filters.selectedStatus() === 'done'"
+        (click)="selectStatus('done')"
+      >
+        <span class="marker marker-done" aria-hidden="true"></span>
+        <span class="stat-label">TERMINÉES</span>
+        <span class="stat-value">{{ stats().done }}</span>
+      </button>
     </div>
   `,
-  styleUrls: ['./dashboard.component.css']
+  styleUrls: ['./dashboard.component.css'],
 })
 export class DashboardComponent {
-  taskService = inject(TaskService);
+  private taskService = inject(TaskService);
+  protected filters = inject(TaskFiltersService);
 
-  total = this.taskService.total;
-  stats = this.taskService.stats;
+  protected total = this.taskService.total;
+  protected stats = this.taskService.stats;
 
-  progressPercentage = computed(() => {
-    const t = this.total();
-    if (t === 0) return 0;
-    return Math.round((this.stats().done / t) * 100);
-  });
+  protected selectStatus(status: TaskStatus | null) {
+    this.filters.selectedStatus.set(status);
+  }
 }
