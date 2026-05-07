@@ -5,7 +5,7 @@ import { TaskFiltersService } from '../../services/task-filters.service';
 import { TaskList } from '../../components/task-list/task-list';
 import { DashboardComponent } from '../../components/dashboard/dashboard.component';
 import { TaskFilterComponent } from '../../components/task-filter/task-filter.component';
-import { PageHeader } from '../../components/shared/page-header/page-header';
+import { DailyHeaderComponent } from '../../components/shared/daily-header/daily-header.component';
 import { EmptyStateComponent } from '../../components/ui/empty-state/empty-state.component';
 import { TaskStatus, Task, TaskFilterState } from '../../models/task.model';
 import { StatsSkeletonComponent } from '../../components/dashboard/stats-skeleton.component';
@@ -22,7 +22,7 @@ import { CommonModule } from '@angular/common';
     TaskSkeletonComponent,
     TaskFilterComponent,
     CommonModule,
-    PageHeader,
+    DailyHeaderComponent,
     EmptyStateComponent,
     RouterLink,
   ],
@@ -30,7 +30,7 @@ import { CommonModule } from '@angular/common';
     @let categories = taskService.categories();
     @let priorities = taskService.priorities();
     <div class="tasks-page-container">
-      <app-page-header> Mes Tâches </app-page-header>
+      <app-daily-header />
 
       @defer (on viewport) {
         <app-stats-dashboard></app-stats-dashboard>

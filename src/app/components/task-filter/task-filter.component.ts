@@ -1,16 +1,24 @@
-import { Component, input, output, signal, effect, viewChild, ElementRef } from '@angular/core';
+import { Component, input, output, signal, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { TaskStatus, TaskFilterState } from '../../models/task.model';
 import { Category } from '../../models/category.model';
-import { ButtonComponent } from '../ui/button/button.component';
-import { FormFieldComponent } from '../ui/form-field/form-field.component';
-import { StatusFilter } from '../status-filter/status-filter.component';
+
+type SortBy = 'manual' | 'date' | 'priority' | 'title';
+
+interface PriorityOption {
+  id: string;
+  label: string;
+}
+
+interface SortOption {
+  id: SortBy;
+  label: string;
+}
 
 @Component({
   selector: 'app-task-filter',
   standalone: true,
-  imports: [CommonModule, FormsModule, ButtonComponent, FormFieldComponent, StatusFilter],
+  imports: [CommonModule],
   templateUrl: './task-filter.component.html',
   styleUrls: ['./task-filter.component.css'],
 })
@@ -20,22 +28,27 @@ export class TaskFilterComponent {
 
   filterChange = output<TaskFilterState>();
 
-  // Signaux internes pour l'état des filtres
+  protected priorityOptions: PriorityOption[] = [
+    { id: 'high', label: 'P1' },
+    { id: 'medium', label: 'P2' },
+    { id: 'low', label: 'P3' },
+    { id: 'p4', label: 'P4' },
+  ];
+
+  protected sortOptions: SortOption[] = [
+    { id: 'manual', label: 'Manuel' },
+    { id: 'date', label: 'Date' },
+    { id: 'priority', label: 'Priorité' },
+    { id: 'title', label: 'A→Z' },
+  ];
+
   search = signal('');
   status = signal<TaskStatus | null>(null);
   categoryId = signal<string | null>(null);
   priority = signal<string | null>(null);
-  sortBy = signal<'date' | 'priority' | 'title' | 'manual'>('manual');
-
-  searchInputRef = viewChild<ElementRef<HTMLInputElement>>('searchInput');
+  sortBy = signal<SortBy>('manual');
 
   constructor() {
-    // Auto-focus au chargement
-    effect(() => {
-      this.searchInputRef()?.nativeElement.focus();
-    });
-
-    // Émettre les changements d'état dès qu'un signal interne change
     effect(() => {
       this.filterChange.emit({
         search: this.search(),
@@ -47,9 +60,14 @@ export class TaskFilterComponent {
     });
   }
 
-  /**
-   * Réinitialise tous les filtres à leurs valeurs par défaut
-   */
+  protected selectPriority(value: string | null) {
+    this.priority.set(value);
+  }
+
+  protected selectSort(value: SortBy) {
+    this.sortBy.set(value);
+  }
+
   resetFilters() {
     this.search.set('');
     this.status.set(null);

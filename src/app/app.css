@@ -2,11 +2,14 @@
 :host {
   display: block;
   height: 100%;
+  background: rgb(244, 245, 243);
 }
 
 main {
-  max-width: 1200px;
+  width: 100%;
+  max-width: 480px;
   margin: 0 auto;
-  padding: 2rem 1.5rem;
+  padding: 0;
   min-height: calc(100vh - 64px);
+  background: rgb(244, 245, 243);
 }
