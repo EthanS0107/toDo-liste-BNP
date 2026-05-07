@@ -7,6 +7,6 @@
 main {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 2rem 1.5rem;
+  padding: 2rem 1.5rem 80px;
   min-height: calc(100vh - 64px);
 }
