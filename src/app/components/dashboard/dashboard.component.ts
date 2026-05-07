@@ -13,10 +13,10 @@ import { TaskStatus } from '../../models/task.model';
       <button
         type="button"
         class="stat-card"
+        data-variant="total"
         [class.active]="filters.selectedStatus() === null"
         (click)="selectStatus(null)"
       >
-        <span class="marker marker-total" aria-hidden="true"></span>
         <span class="stat-label">TOTAL</span>
         <span class="stat-value">{{ total() }}</span>
       </button>
@@ -24,10 +24,10 @@ import { TaskStatus } from '../../models/task.model';
       <button
         type="button"
         class="stat-card"
+        data-variant="todo"
         [class.active]="filters.selectedStatus() === 'todo'"
         (click)="selectStatus('todo')"
       >
-        <span class="marker marker-todo" aria-hidden="true"></span>
         <span class="stat-label">À FAIRE</span>
         <span class="stat-value">{{ stats().todo }}</span>
       </button>
@@ -35,10 +35,10 @@ import { TaskStatus } from '../../models/task.model';
       <button
         type="button"
         class="stat-card"
+        data-variant="in-progress"
         [class.active]="filters.selectedStatus() === 'in-progress'"
         (click)="selectStatus('in-progress')"
       >
-        <span class="marker marker-in-progress" aria-hidden="true"></span>
         <span class="stat-label">EN COURS</span>
         <span class="stat-value">{{ stats().inProgress }}</span>
       </button>
@@ -46,10 +46,10 @@ import { TaskStatus } from '../../models/task.model';
       <button
         type="button"
         class="stat-card"
+        data-variant="done"
         [class.active]="filters.selectedStatus() === 'done'"
         (click)="selectStatus('done')"
       >
-        <span class="marker marker-done" aria-hidden="true"></span>
         <span class="stat-label">TERMINÉES</span>
         <span class="stat-value">{{ stats().done }}</span>
       </button>
