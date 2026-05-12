@@ -1,16 +1,15 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { TaskService } from '../../services/task.service';
 import { TaskFiltersService } from '../../services/task-filters.service';
 import { TaskList } from '../../components/task-list/task-list';
 import { DashboardComponent } from '../../components/dashboard/dashboard.component';
 import { TaskFilterComponent } from '../../components/task-filter/task-filter.component';
-import { DailyHeaderComponent } from '../../components/shared/daily-header/daily-header.component';
 import { CategoryTabsComponent } from '../../components/category-tabs/category-tabs.component';
 import { EmptyStateComponent } from '../../components/ui/empty-state/empty-state.component';
 import { FabButtonComponent } from '../../components/shared/fab-button/fab-button.component';
 import { BottomNavComponent } from '../../components/shared/bottom-nav/bottom-nav.component';
-import { TaskStatus, Task, TaskFilterState } from '../../models/task.model';
+import { TaskStatus, Task } from '../../models/task.model';
 import { StatsSkeletonComponent } from '../../components/dashboard/stats-skeleton.component';
 import { TaskSkeletonComponent } from '../../components/task-list/task-skeleton.component';
 import { CommonModule } from '@angular/common';
@@ -25,7 +24,6 @@ import { CommonModule } from '@angular/common';
     TaskSkeletonComponent,
     TaskFilterComponent,
     CommonModule,
-    DailyHeaderComponent,
     CategoryTabsComponent,
     EmptyStateComponent,
     FabButtonComponent,
@@ -36,8 +34,6 @@ import { CommonModule } from '@angular/common';
     @let categories = taskService.categories();
     @let priorities = taskService.priorities();
     <div class="tasks-page-container">
-      <app-daily-header />
-
       @defer (on viewport) {
         <app-stats-dashboard></app-stats-dashboard>
       } @placeholder {
@@ -49,7 +45,6 @@ import { CommonModule } from '@angular/common';
       <app-task-filter
         [categories]="categories"
         [priorities]="priorities"
-        (filterChange)="onFilterChange($event)"
       />
 
       <app-category-tabs />
@@ -96,13 +91,13 @@ import { CommonModule } from '@angular/common';
   `,
   styleUrls: ['./tasks-page.component.css'],
 })
-export class TasksPage {
+export class TasksPage implements OnInit {
   protected taskService = inject(TaskService);
   protected filters = inject(TaskFiltersService);
   private router = inject(Router);
 
-  onFilterChange(filters: TaskFilterState) {
-    this.filters.applyFilters(filters);
+  ngOnInit() {
+    this.filters.scope.set('all');
   }
 
   onTaskDeleted(id: string) {

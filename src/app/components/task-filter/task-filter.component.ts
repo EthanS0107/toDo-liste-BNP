@@ -1,6 +1,6 @@
-import { Component, input, output, signal, effect, computed } from '@angular/core';
+import { Component, input, inject, effect, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TaskStatus, TaskFilterState } from '../../models/task.model';
+import { TaskFiltersService } from '../../services/task-filters.service';
 import { Category } from '../../models/category.model';
 
 type SortBy = 'manual' | 'date' | 'priority' | 'title';
@@ -23,11 +23,11 @@ interface SortOption {
   styleUrls: ['./task-filter.component.css'],
 })
 export class TaskFilterComponent {
+  protected filters = inject(TaskFiltersService);
+
   categories = input<Category[]>([]);
   priorities = input<{ id: string; name: string }[]>([]);
   hideDateSort = input(false);
-
-  filterChange = output<TaskFilterState>();
 
   protected priorityOptions: PriorityOption[] = [
     { id: 'high', label: 'P1' },
@@ -49,41 +49,21 @@ export class TaskFilterComponent {
       : this.allSortOptions,
   );
 
-  search = signal('');
-  status = signal<TaskStatus | null>(null);
-  categoryId = signal<string | null>(null);
-  priority = signal<string | null>(null);
-  sortBy = signal<SortBy>('manual');
-
   constructor() {
     effect(() => {
       // Si l'option de tri actuelle est masquée, on retombe sur "manual"
-      if (this.hideDateSort() && this.sortBy() === 'date') {
-        this.sortBy.set('manual');
+      if (this.hideDateSort() && this.filters.sortField() === 'date') {
+        this.filters.sortField.set('manual');
       }
-      this.filterChange.emit({
-        search: this.search(),
-        status: this.status(),
-        categoryId: this.categoryId(),
-        priority: this.priority(),
-        sortBy: this.sortBy(),
-      });
     });
   }
 
-  protected selectPriority(value: string | null) {
-    this.priority.set(value);
-  }
-
-  protected selectSort(value: SortBy) {
-    this.sortBy.set(value);
+  protected onSearchInput(event: Event) {
+    const target = event.target as HTMLInputElement;
+    this.filters.searchQuery.set(target.value);
   }
 
   resetFilters() {
-    this.search.set('');
-    this.status.set(null);
-    this.categoryId.set(null);
-    this.priority.set(null);
-    this.sortBy.set('manual');
+    this.filters.resetFilters();
   }
 }

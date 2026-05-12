@@ -1,12 +1,51 @@
 <div class="filter-container">
+  <div class="search-bar">
+    <div class="search-input-wrapper">
+      <svg
+        class="search-icon"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+      <input
+        type="text"
+        placeholder="Rechercher une tâche..."
+        [value]="filters.searchQuery()"
+        (input)="onSearchInput($event)"
+        class="search-input"
+      />
+      @if (filters.searchQuery()) {
+        <button class="clear-btn" (click)="filters.searchQuery.set('')" aria-label="Effacer">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      }
+    </div>
+  </div>
+
   <div class="filter-row priority-row">
     <span class="filter-label">Priorité</span>
     <div class="filter-buttons">
       <button
         type="button"
         class="chip"
-        [class.active]="priority() === null"
-        (click)="selectPriority(null)"
+        [class.active]="filters.selectedPriority() === null"
+        (click)="filters.selectedPriority.set(null)"
       >
         TOUTES
       </button>
@@ -14,12 +53,50 @@
         <button
           type="button"
           class="chip"
-          [class.active]="priority() === p.id"
-          (click)="selectPriority(p.id)"
+          [class.active]="filters.selectedPriority() === p.id"
+          (click)="filters.selectedPriority.set(p.id)"
         >
           {{ p.label }}
         </button>
       }
+    </div>
+  </div>
+
+  <div class="filter-row status-row">
+    <span class="filter-label">Statut</span>
+    <div class="filter-buttons">
+      <button
+        type="button"
+        class="chip"
+        [class.active]="filters.selectedStatus() === null"
+        (click)="filters.selectedStatus.set(null)"
+      >
+        TOUS
+      </button>
+      <button
+        type="button"
+        class="chip"
+        [class.active]="filters.selectedStatus() === 'todo'"
+        (click)="filters.selectedStatus.set('todo')"
+      >
+        À FAIRE
+      </button>
+      <button
+        type="button"
+        class="chip"
+        [class.active]="filters.selectedStatus() === 'in-progress'"
+        (click)="filters.selectedStatus.set('in-progress')"
+      >
+        EN COURS
+      </button>
+      <button
+        type="button"
+        class="chip"
+        [class.active]="filters.selectedStatus() === 'done'"
+        (click)="filters.selectedStatus.set('done')"
+      >
+        TERMINEES
+      </button>
     </div>
   </div>
 
@@ -29,8 +106,8 @@
       <button
         type="button"
         class="segment-btn"
-        [class.active]="sortBy() === s.id"
-        (click)="selectSort(s.id)"
+        [class.active]="filters.sortField() === s.id"
+        (click)="filters.sortField.set(s.id)"
       >
         {{ s.label }}
       </button>

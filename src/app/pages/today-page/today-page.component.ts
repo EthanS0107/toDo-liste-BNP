@@ -11,7 +11,7 @@ import { EmptyStateComponent } from '../../components/ui/empty-state/empty-state
 import { FabButtonComponent } from '../../components/shared/fab-button/fab-button.component';
 import { BottomNavComponent } from '../../components/shared/bottom-nav/bottom-nav.component';
 import { TaskSkeletonComponent } from '../../components/task-list/task-skeleton.component';
-import { Task, TaskStatus, TaskFilterState } from '../../models/task.model';
+import { Task, TaskStatus } from '../../models/task.model';
 
 @Component({
   selector: 'app-today-page',
@@ -38,7 +38,6 @@ import { Task, TaskStatus, TaskFilterState } from '../../models/task.model';
       <app-task-filter
         [priorities]="priorities"
         [hideDateSort]="true"
-        (filterChange)="onFilterChange($event)"
       />
 
       @defer (on idle; on interaction) {
@@ -95,10 +94,6 @@ export class TodayPage implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.filters.scope.set('all');
     this.filters.resetFilters();
-  }
-
-  onFilterChange(state: TaskFilterState) {
-    this.filters.applyFilters(state);
   }
 
   onTaskDeleted(id: string) {
