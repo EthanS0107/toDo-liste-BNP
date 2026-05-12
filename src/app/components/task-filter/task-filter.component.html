@@ -1,10 +1,10 @@
 <div class="filter-container">
   <div class="filter-row priority-row">
-    <span class="filter-label">PRIORITÉ</span>
+    <span class="filter-label">Priorité</span>
     <div class="filter-buttons">
       <button
         type="button"
-        class="chip chip-dark"
+        class="chip"
         [class.active]="priority() === null"
         (click)="selectPriority(null)"
       >
@@ -23,19 +23,17 @@
     </div>
   </div>
 
-  <div class="filter-row sort-row">
-    <span class="filter-label">TRI</span>
-    <div class="sort-segment">
-      @for (s of sortOptions; track s.id) {
-        <button
-          type="button"
-          class="segment-btn"
-          [class.active]="sortBy() === s.id"
-          (click)="selectSort(s.id)"
-        >
-          {{ s.label }}
-        </button>
-      }
-    </div>
+  <div class="sort-segment">
+    <span class="sort-label">Tri</span>
+    @for (s of sortOptions; track s.id) {
+      <button
+        type="button"
+        class="segment-btn"
+        [class.active]="sortBy() === s.id"
+        (click)="selectSort(s.id)"
+      >
+        {{ s.label }}
+      </button>
+    }
   </div>
 </div>

@@ -16,9 +16,19 @@
   gap: 10px;
 }
 
-.header-logo img {
+.user-badge {
   width: 32px;
-  height: auto;
+  height: 32px;
+  border-radius: 6px;
+  background: rgb(15, 107, 74);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'IBM Plex Sans', 'Inter', system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
 }
 
 .header-title {
@@ -38,6 +48,11 @@
   letter-spacing: -0.1px;
 }
 
+.header-actions {
+  display: flex;
+  gap: 4px;
+}
+
 .header-action {
   width: 32px;
   height: 32px;
@@ -50,4 +65,13 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+}
+
+.header-action img {
+  width: 16px;
+  height: 16px;
+}
+
+.header-action:hover {
+  background: rgb(236, 239, 233);
 }

@@ -5,6 +5,7 @@ export interface BadgeStyle {
   bgColor: string;
   textColor: string;
   dotColor: string;
+  borderColor: string;
 }
 
 @Injectable({
@@ -12,38 +13,44 @@ export interface BadgeStyle {
 })
 export class BadgeColorService {
   private readonly priorityColors: Record<TaskPriority, BadgeStyle> = {
-    low: {
-      bgColor: '#e0f2fe',
-      textColor: '#0369a1',
-      dotColor: '#0369a1',
+    high: {
+      bgColor: 'rgba(155, 47, 42, 0.063)',
+      textColor: 'rgb(155, 47, 42)',
+      dotColor: 'rgb(155, 47, 42)',
+      borderColor: 'rgba(155, 47, 42, 0.2)',
     },
     medium: {
-      bgColor: '#fef3c7',
-      textColor: '#b45309',
-      dotColor: '#b45309',
+      bgColor: 'rgba(160, 106, 20, 0.063)',
+      textColor: 'rgb(160, 106, 20)',
+      dotColor: 'rgb(160, 106, 20)',
+      borderColor: 'rgba(160, 106, 20, 0.2)',
     },
-    high: {
-      bgColor: '#fee2e2',
-      textColor: '#991b1b',
-      dotColor: '#991b1b',
+    low: {
+      bgColor: 'rgba(42, 74, 122, 0.063)',
+      textColor: 'rgb(42, 74, 122)',
+      dotColor: 'rgb(42, 74, 122)',
+      borderColor: 'rgba(42, 74, 122, 0.2)',
     },
   };
 
   private readonly statusColors: Record<TaskStatus, BadgeStyle> = {
     todo: {
-      bgColor: '#f3f4f6',
-      textColor: '#374151',
-      dotColor: '#9ca3af',
+      bgColor: 'rgb(236, 239, 233)',
+      textColor: 'rgb(66, 81, 74)',
+      dotColor: 'rgb(66, 81, 74)',
+      borderColor: 'rgba(66, 81, 74, 0.2)',
     },
     'in-progress': {
-      bgColor: '#dbeafe',
-      textColor: '#1e40af',
-      dotColor: '#1e40af',
+      bgColor: 'rgb(247, 237, 220)',
+      textColor: 'rgb(160, 106, 20)',
+      dotColor: 'rgb(160, 106, 20)',
+      borderColor: 'rgba(160, 106, 20, 0.2)',
     },
     done: {
-      bgColor: '#dcfce7',
-      textColor: '#166534',
-      dotColor: '#16a34a',
+      bgColor: 'rgb(230, 240, 235)',
+      textColor: 'rgb(15, 107, 74)',
+      dotColor: 'rgb(15, 107, 74)',
+      borderColor: 'rgba(15, 107, 74, 0.2)',
     },
   };
 

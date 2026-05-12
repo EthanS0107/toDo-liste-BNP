@@ -1,7 +1,7 @@
 /* Styles principaux de l'app */
 :host {
   display: block;
-  height: 100%;
+  min-height: 100%;
   background: rgb(244, 245, 243);
 }
 
@@ -10,6 +10,6 @@ main {
   max-width: 480px;
   margin: 0 auto;
   padding: 0;
-  min-height: calc(100vh - 64px);
+  min-height: calc(100vh - 60px);
   background: rgb(244, 245, 243);
 }

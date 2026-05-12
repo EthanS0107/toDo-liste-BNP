@@ -1,48 +1,62 @@
 @let t = task();
 @let cat = category();
-@let overdue = t.dueDate | isOverdue: t.status;
-<div [class.overdue]="overdue" [ngClass]="'status-' + t.status">
-  <!-- En-tête : Titre et Priorité -->
-  <div>
-    <h3 [class.done]="t.status === 'done'">
-      {{ t.title }}
-    </h3>
-    <app-priority-badge [priority]="t.priority"></app-priority-badge>
+@let st = badgeStyle();
+<article
+  class="task-card"
+  [class.done]="t.status === 'done'"
+  [attr.data-status]="t.status"
+  (click)="onCardClick($event)"
+>
+  <!-- Checkbox / état -->
+  <div class="check-wrapper">
+    <button
+      type="button"
+      class="checkbox"
+      [class.is-done]="t.status === 'done'"
+      [class.is-progress]="t.status === 'in-progress'"
+      [style.borderColor]="checkboxBorder()"
+      [attr.aria-label]="t.status === 'done' ? 'Réouvrir' : 'Marquer comme terminée'"
+      (click)="onToggleStatus($event)"
+    >
+      @if (t.status === 'done') {
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="#fff"
+             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M2.5 6.5 L 5 9 L 9.5 3.5" />
+        </svg>
+      } @else if (t.status === 'in-progress') {
+        <span class="checkbox-dot" [style.backgroundColor]="checkboxBorder()"></span>
+      }
+    </button>
   </div>
 
-  <!-- Description -->
-  <p>
-    {{ t.description }}
-  </p>
+  <!-- Contenu -->
+  <div class="task-content">
+    <div class="task-head">
+      <span class="task-ref">{{ taskRef() }}</span>
+      <app-priority-badge [priority]="t.priority" />
+    </div>
 
-  <!-- Méta-informations : Catégorie, Date, Statut -->
-  <div>
-    <!-- Statut (Badge) -->
-    <app-status-badge [status]="t.status"></app-status-badge>
+    <div class="task-title" [class.done]="t.status === 'done'">{{ t.title }}</div>
 
-    <!-- Catégorie -->
-    @if (cat) {
-      <app-category-chip [category]="cat"></app-category-chip>
-    }
+    <div class="task-meta">
+      <app-status-badge [status]="t.status" />
 
-    <!-- Date d'échéance (relative / overdue) -->
-    @if (t.dueDate) {
-      <app-due-date
-        [date]="t.dueDate"
-        [overdue]="overdue"
-        [isCompleted]="t.status === 'done'"
-      ></app-due-date>
-    }
+      @if (t.dueDate) {
+        <span class="meta-time">
+          <svg width="11" height="11" viewBox="0 0 12 12" fill="none"
+               stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+            <circle cx="6" cy="6" r="4.5" />
+            <path d="M6 3.5V6l1.8 1.2" />
+          </svg>
+          {{ formattedTime() }}
+        </span>
+      }
+
+      <span class="meta-spacer"></span>
+
+      @if (cat) {
+        <span class="meta-category">{{ cat.name }}</span>
+      }
+    </div>
   </div>
-
-  <div>
-    <app-task-actions
-      [status]="t.status"
-      (markDone)="statusChanged.emit({ id: t.id, status: 'done' })"
-      (reopen)="statusChanged.emit({ id: t.id, status: 'todo' })"
-      (start)="statusChanged.emit({ id: t.id, status: 'in-progress' })"
-      (edit)="edited.emit(t)"
-      (delete)="deleted.emit(t.id)"
-    ></app-task-actions>
-  </div>
-</div>
+</article>

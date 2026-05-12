@@ -1,6 +1,6 @@
 import { Component, input, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TaskStatus, STATUS_LABELS } from '../../../models/task.model';
+import { TaskStatus, STATUS_LABELS, STATUS_ICONS } from '../../../models/task.model';
 import { BadgeColorService } from '../../../services/badge-color.service';
 
 @Component({
@@ -9,11 +9,12 @@ import { BadgeColorService } from '../../../services/badge-color.service';
   imports: [CommonModule],
   template: `
     <span
+      class="status-badge"
       [style.backgroundColor]="badgeStyle().bgColor"
       [style.color]="badgeStyle().textColor"
-      class="status-badge"
+      [style.borderColor]="badgeStyle().borderColor"
     >
-      <span class="badge-dot" [style.backgroundColor]="badgeStyle().dotColor"></span>
+      <span class="badge-icon" aria-hidden="true">{{ icon() }}</span>
       {{ label() }}
     </span>
   `,
@@ -25,5 +26,6 @@ export class StatusBadgeComponent {
   constructor(private badgeColorService: BadgeColorService) {}
 
   label = computed(() => STATUS_LABELS[this.status()]);
+  icon = computed(() => STATUS_ICONS[this.status()]);
   badgeStyle = computed(() => this.badgeColorService.getStatusStyle(this.status()));
 }

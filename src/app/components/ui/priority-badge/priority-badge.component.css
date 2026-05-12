@@ -1,18 +1,21 @@
 .priority-badge {
   display: inline-flex;
   align-items: center;
-  gap: 0.35rem;
-  padding: 0.35rem 0.65rem;
-  border-radius: 4px;
-  font-size: 0.8rem;
+  gap: 4px;
+  padding: 0 5px;
+  border-radius: 3px;
+  border: 1px solid;
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 10px;
   font-weight: 600;
+  letter-spacing: 0.4px;
   white-space: nowrap;
-  transition: all 0.2s ease;
+  line-height: 1.45;
 }
 
 .badge-dot {
   display: inline-block;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
+  width: 5px;
+  height: 5px;
+  border-radius: 1px;
 }

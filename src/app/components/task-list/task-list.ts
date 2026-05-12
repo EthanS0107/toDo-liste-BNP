@@ -9,6 +9,7 @@ import { TaskCard } from '../task-card/task-card';
   standalone: true,
   imports: [TaskCard, CdkDropList, CdkDrag],
   templateUrl: './task-list.html',
+  styleUrl: './task-list.css',
 })
 export class TaskList {
   taskCards = viewChildren(TaskCard);

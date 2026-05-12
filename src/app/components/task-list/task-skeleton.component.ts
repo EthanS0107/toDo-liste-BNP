@@ -5,17 +5,12 @@ import { Component } from '@angular/core';
   standalone: true,
   template: `
     <div class="task-list-skeleton">
-      @for (i of [1, 2, 3]; track i) {
-        <div class="skeleton-card">
-          <div class="skeleton-header">
+      @for (i of [1, 2, 3, 4]; track i) {
+        <div class="skeleton-row">
+          <div class="skeleton-check"></div>
+          <div class="skeleton-content">
+            <div class="skeleton-line head"></div>
             <div class="skeleton-line title"></div>
-            <div class="skeleton-line badge"></div>
-          </div>
-          <div class="skeleton-line text"></div>
-          <div class="skeleton-line text short"></div>
-          <div class="skeleton-footer">
-            <div class="skeleton-line meta"></div>
-            <div class="skeleton-line meta"></div>
             <div class="skeleton-line meta"></div>
           </div>
         </div>
