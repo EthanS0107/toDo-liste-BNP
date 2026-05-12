@@ -1,0 +1,6 @@
+.today-page-container {
+  width: 100%;
+  margin: 0 auto;
+  background: rgb(244, 245, 243);
+  padding-bottom: calc(80px + env(safe-area-inset-bottom, 0px));
+}

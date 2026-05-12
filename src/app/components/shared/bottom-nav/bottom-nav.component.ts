@@ -33,7 +33,7 @@ export class BottomNavComponent {
   items: NavItem[] = [
     {
       label: "Aujourd'hui",
-      link: '/tasks',
+      link: '/today',
       exact: true,
       icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h14v16H5z M5 9h14"/></svg>',
     },

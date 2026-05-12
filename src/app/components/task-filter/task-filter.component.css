@@ -58,8 +58,7 @@
 
 /* SORT SEGMENTED */
 .sort-segment {
-  display: grid;
-  grid-template-columns: auto 1fr 1fr 1fr 1fr;
+  display: flex;
   background: #fff;
   border: 1px solid rgb(221, 225, 220);
   border-radius: 4px;
@@ -67,6 +66,7 @@
 }
 
 .sort-label {
+  flex: 0 0 auto;
   padding: 0 12px;
   display: inline-flex;
   align-items: center;
@@ -81,6 +81,7 @@
 .segment-btn {
   appearance: none;
   cursor: pointer;
+  flex: 1;
   padding: 7px 4px;
   background: transparent;
   color: rgb(66, 81, 74);

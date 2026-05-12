@@ -1,5 +1,5 @@
 import { Component, inject, computed } from '@angular/core';
-import { TaskService } from '../../../services/task.service';
+import { TaskFiltersService } from '../../../services/task-filters.service';
 
 @Component({
   selector: 'app-daily-header',
@@ -20,9 +20,9 @@ import { TaskService } from '../../../services/task.service';
   styleUrl: './daily-header.component.css',
 })
 export class DailyHeaderComponent {
-  private taskService = inject(TaskService);
-  protected stats = this.taskService.stats;
-  protected total = this.taskService.total;
+  private filters = inject(TaskFiltersService);
+  protected stats = this.filters.scopedStats;
+  protected total = this.filters.scopedTotal;
 
   protected progress = computed(() => {
     const total = this.total();
