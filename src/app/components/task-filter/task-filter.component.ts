@@ -1,4 +1,4 @@
-import { Component, input, output, signal, effect } from '@angular/core';
+import { Component, input, output, signal, effect, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TaskStatus, TaskFilterState } from '../../models/task.model';
 import { Category } from '../../models/category.model';
@@ -25,6 +25,7 @@ interface SortOption {
 export class TaskFilterComponent {
   categories = input<Category[]>([]);
   priorities = input<{ id: string; name: string }[]>([]);
+  hideDateSort = input(false);
 
   filterChange = output<TaskFilterState>();
 
@@ -35,12 +36,18 @@ export class TaskFilterComponent {
     { id: 'p4', label: 'P4' },
   ];
 
-  protected sortOptions: SortOption[] = [
+  private allSortOptions: SortOption[] = [
     { id: 'manual', label: 'Manuel' },
     { id: 'date', label: 'Date' },
     { id: 'priority', label: 'Priorité' },
     { id: 'title', label: 'A→Z' },
   ];
+
+  protected sortOptions = computed(() =>
+    this.hideDateSort()
+      ? this.allSortOptions.filter((s) => s.id !== 'date')
+      : this.allSortOptions,
+  );
 
   search = signal('');
   status = signal<TaskStatus | null>(null);
@@ -50,6 +57,10 @@ export class TaskFilterComponent {
 
   constructor() {
     effect(() => {
+      // Si l'option de tri actuelle est masquée, on retombe sur "manual"
+      if (this.hideDateSort() && this.sortBy() === 'date') {
+        this.sortBy.set('manual');
+      }
       this.filterChange.emit({
         search: this.search(),
         status: this.status(),

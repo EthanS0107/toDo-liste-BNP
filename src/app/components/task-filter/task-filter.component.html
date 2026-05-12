@@ -25,7 +25,7 @@
 
   <div class="sort-segment">
     <span class="sort-label">Tri</span>
-    @for (s of sortOptions; track s.id) {
+    @for (s of sortOptions(); track s.id) {
       <button
         type="button"
         class="segment-btn"

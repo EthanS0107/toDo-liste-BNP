@@ -10,7 +10,7 @@ export const routes: Routes = [
 
   {
     path: 'today',
-    loadComponent: () => import('./pages/tasks-page/tasks-page.component').then(m => m.TasksPage)
+    loadComponent: () => import('./pages/today-page/today-page.component').then(m => m.TodayPage)
   },
 
   {

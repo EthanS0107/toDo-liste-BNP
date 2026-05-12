@@ -1,6 +1,5 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TaskService } from '../../services/task.service';
 import { TaskFiltersService } from '../../services/task-filters.service';
 import { TaskStatus } from '../../models/task.model';
 
@@ -64,11 +63,10 @@ import { TaskStatus } from '../../models/task.model';
   styleUrls: ['./dashboard.component.css'],
 })
 export class DashboardComponent {
-  private taskService = inject(TaskService);
   protected filters = inject(TaskFiltersService);
 
-  protected total = this.taskService.total;
-  protected stats = this.taskService.stats;
+  protected total = this.filters.scopedTotal;
+  protected stats = this.filters.scopedStats;
 
   protected selectStatus(status: TaskStatus | null) {
     this.filters.selectedStatus.set(status);
