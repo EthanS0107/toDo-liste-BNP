@@ -9,6 +9,21 @@ export const routes: Routes = [
   },
 
   {
+    path: 'today',
+    loadComponent: () => import('./pages/tasks-page/tasks-page.component').then(m => m.TasksPage)
+  },
+
+  {
+    path: 'agenda',
+    loadComponent: () => import('./pages/tasks-page/tasks-page.component').then(m => m.TasksPage)
+  },
+
+  {
+    path: 'profile',
+    loadComponent: () => import('./pages/tasks-page/tasks-page.component').then(m => m.TasksPage)
+  },
+
+  {
     path: 'tasks/new',
     loadComponent: () => import('./pages/task-form-page/task-form-page.component').then(m => m.TaskFormPage)
   },

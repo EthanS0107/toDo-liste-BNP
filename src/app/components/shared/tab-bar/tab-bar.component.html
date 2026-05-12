@@ -1,20 +1,20 @@
 <nav class="tab-bar">
-  <a routerLink="/today" [class.active]="activeTab === 'today'" (click)="setActive('today')" class="tab-item">
+  <a routerLink="/today" routerLinkActive="active" class="tab-item">
     <div class="tab-icon icon-today"></div>
     <span class="tab-label">Aujourd'hui</span>
   </a>
 
-  <a routerLink="/tasks" [class.active]="activeTab === 'tasks'" (click)="setActive('tasks')" class="tab-item">
+  <a routerLink="/tasks" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="tab-item">
     <div class="tab-icon icon-tasks"></div>
     <span class="tab-label">Tâches</span>
   </a>
 
-  <a routerLink="/agenda" [class.active]="activeTab === 'agenda'" (click)="setActive('agenda')" class="tab-item">
+  <a routerLink="/agenda" routerLinkActive="active" class="tab-item">
     <div class="tab-icon icon-agenda"></div>
     <span class="tab-label">Agenda</span>
   </a>
 
-  <a routerLink="/profile" [class.active]="activeTab === 'profile'" (click)="setActive('profile')" class="tab-item">
+  <a routerLink="/profile" routerLinkActive="active" class="tab-item">
     <div class="tab-icon icon-profile"></div>
     <span class="tab-label">Profil</span>
   </a>

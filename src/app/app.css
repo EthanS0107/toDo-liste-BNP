@@ -9,7 +9,7 @@ main {
   width: 100%;
   max-width: 480px;
   margin: 0 auto;
-  padding: 0;
+  padding: 0 0 80px 0;
   min-height: calc(100vh - 60px);
   background: rgb(244, 245, 243);
 }
