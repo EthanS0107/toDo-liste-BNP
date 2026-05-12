@@ -1,29 +1,28 @@
 .daily-header {
-  padding: 16px 16px 0;
+  padding: 16px 16px 4px;
   background: rgb(244, 245, 243);
+  font-family: 'IBM Plex Sans', 'Inter', system-ui, sans-serif;
 }
 
 .date-label {
-  font-family: 'IBM Plex Sans', 'Inter', system-ui, sans-serif;
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 600;
-  letter-spacing: 0.8px;
-  color: rgb(108, 121, 113);
+  letter-spacing: 0.6px;
+  color: rgb(122, 134, 128);
   text-transform: uppercase;
-  margin-bottom: 8px;
 }
 
 .title-row {
   display: flex;
   align-items: baseline;
-  gap: 10px;
+  gap: 8px;
+  margin-top: 4px;
   flex-wrap: wrap;
 }
 
 .title {
-  font-family: 'IBM Plex Sans', 'Inter', system-ui, sans-serif;
-  font-size: 26px;
-  font-weight: 700;
+  font-size: 22px;
+  font-weight: 600;
   letter-spacing: -0.4px;
   color: rgb(15, 26, 20);
   margin: 0;
@@ -31,18 +30,29 @@
 }
 
 .counter {
-  font-family: 'IBM Plex Sans', 'Inter', system-ui, sans-serif;
-  font-size: 14px;
-  font-weight: 500;
-  color: rgb(108, 121, 113);
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 11px;
+  color: rgb(66, 81, 74);
+  font-variant-numeric: tabular-nums;
 }
 
-.title-underline {
+.counter .sep,
+.counter .counter-suffix {
+  font-family: inherit;
+}
+
+.progress-track {
   margin-top: 10px;
-  height: 2px;
-  width: 100%;
-  background: rgb(0, 138, 79);
+  height: 4px;
   border-radius: 2px;
+  background: rgb(221, 225, 220);
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: rgb(15, 107, 74);
+  transition: width 0.25s ease;
 }
 
 @media (prefers-color-scheme: dark) {

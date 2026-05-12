@@ -3,33 +3,37 @@
   left: 0;
   right: 0;
   bottom: 0;
-  display: flex;
-  justify-content: space-around;
-  align-items: stretch;
-  background-color: #fff;
-  border-top: 1px solid var(--color-gray-200, #e5e7eb);
-  padding: 0.4rem 0.25rem calc(0.4rem + env(safe-area-inset-bottom, 0px));
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  background: #fff;
+  border-top: 1px solid rgb(221, 225, 220);
+  padding-bottom: calc(6px + env(safe-area-inset-bottom, 0px));
   z-index: 40;
 }
 
 .bottom-nav-item {
-  flex: 1;
+  appearance: none;
+  cursor: pointer;
+  border-top: 2px solid transparent;
+  background: transparent;
+  padding: 8px 0 6px;
+  margin-top: -1px;
+  color: rgb(122, 134, 128);
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 0.2rem;
-  padding: 0.4rem 0.25rem;
-  color: var(--color-gray-500, #6b7280);
-  font-size: 0.7rem;
+  gap: 2px;
+  font-family: 'IBM Plex Sans', 'Inter', system-ui, sans-serif;
+  font-size: 10px;
   font-weight: 500;
   text-decoration: none;
-  transition: color 0.15s ease;
+  transition: color 0.15s ease, border-color 0.15s ease;
 }
 
 .bottom-nav-item.active {
-  color: var(--color-primary, #00965e);
+  color: rgb(15, 107, 74);
   font-weight: 600;
+  border-top-color: rgb(15, 107, 74);
 }
 
 .bottom-nav-icon {
@@ -40,4 +44,12 @@
 
 .bottom-nav-label {
   letter-spacing: 0.01em;
+}
+
+/* Centre la zone sur la maquette mobile (max 480px) */
+@media (min-width: 481px) {
+  .bottom-nav {
+    left: max(0px, calc(50% - 240px));
+    right: max(0px, calc(50% - 240px));
+  }
 }

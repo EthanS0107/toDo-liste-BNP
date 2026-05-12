@@ -1,86 +1,108 @@
+:host {
+  display: block;
+}
+
 .tabs-wrapper {
-  background: rgb(244, 245, 243);
+  position: relative;
+  border-top: 1px solid rgb(221, 225, 220);
   border-bottom: 1px solid rgb(221, 225, 220);
-  padding: 0 16px;
+  background: rgb(244, 245, 243);
 }
 
 .tabs-scroll {
   display: flex;
-  align-items: stretch;
-  gap: 16px;
   overflow-x: auto;
+  overflow-y: hidden;
   scrollbar-width: none;
   -ms-overflow-style: none;
   font-family: 'IBM Plex Sans', 'Inter', system-ui, sans-serif;
 }
 
-.tabs-scroll::-webkit-scrollbar {
+.hide-scrollbar::-webkit-scrollbar {
   display: none;
 }
 
+.tabs-padding-start { flex: 0 0 16px; }
+.tabs-padding-end   { flex: 0 0 24px; }
+
 .tab {
-  position: relative;
+  appearance: none;
+  cursor: pointer;
+  border: none;
+  border-bottom: 2px solid transparent;
+  padding: 10px 14px 9px;
+  background: transparent;
+  color: rgb(66, 81, 74);
+  font-family: inherit;
+  font-size: 12.5px;
+  font-weight: 500;
+  letter-spacing: -0.1px;
+  flex-shrink: 0;
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 10px 0;
-  background: transparent;
-  border: none;
-  cursor: pointer;
+  margin-bottom: -1px;
   white-space: nowrap;
-  flex-shrink: 0;
-  font-family: inherit;
-  transition: color 0.18s ease;
+  transition: color 0.15s ease;
 }
 
 .tab-label {
-  font-size: 14px;
-  font-weight: 500;
-  color: rgb(108, 121, 113);
-  letter-spacing: -0.1px;
+  line-height: 1.2;
 }
 
 .tab-count {
-  font-size: 12px;
-  font-weight: 500;
-  color: rgb(140, 152, 145);
-  background: rgb(232, 236, 230);
-  padding: 1px 7px;
-  border-radius: 10px;
-  min-width: 18px;
-  text-align: center;
-  line-height: 1.4;
-}
-
-.tab:hover .tab-label {
-  color: rgb(15, 26, 20);
-}
-
-.tab.active .tab-label {
-  color: rgb(15, 26, 20);
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 10px;
+  padding: 1px 5px;
+  border-radius: 8px;
+  background: rgb(236, 239, 233);
+  color: rgb(66, 81, 74);
   font-weight: 600;
 }
 
-.tab.active .tab-count {
-  background: rgb(15, 26, 20);
-  color: #ffffff;
+.tab:hover {
+  color: rgb(15, 26, 20);
 }
 
-.tab.active::after {
-  content: '';
+.tab.active {
+  color: rgb(15, 107, 74);
+  font-weight: 600;
+  border-bottom-color: rgb(15, 107, 74);
+}
+
+.tab.active .tab-count {
+  background: rgb(230, 240, 235);
+  color: rgb(15, 107, 74);
+}
+
+.fade-right {
   position: absolute;
-  bottom: -1px;
-  left: 0;
   right: 0;
-  height: 2px;
-  background: rgb(0, 138, 79);
-  border-radius: 2px 2px 0 0;
+  top: 0;
+  bottom: 0;
+  width: 32px;
+  background: linear-gradient(90deg, transparent, rgb(244, 245, 243) 70%);
+  pointer-events: none;
+}
+
+.chevron-right {
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  transform: translateY(-55%);
+  color: rgb(66, 81, 74);
+  opacity: 0.6;
+  pointer-events: none;
+  display: flex;
 }
 
 .results-count {
-  padding: 12px 16px 8px;
+  padding: 10px 16px 8px;
+  display: flex;
+  align-items: baseline;
   font-family: 'IBM Plex Sans', 'Inter', system-ui, sans-serif;
-  font-size: 13px;
-  color: rgb(108, 121, 113);
+  font-size: 11px;
+  color: rgb(122, 134, 128);
   background: rgb(244, 245, 243);
+  letter-spacing: 0.3px;
 }

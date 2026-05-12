@@ -2,32 +2,34 @@
   <div class="header-container">
     <div class="header-content">
       <div class="header-logo">
-        <img src="/bnp-icon.webp" alt="BNP Paribas" />
+        <div class="user-badge" aria-hidden="true">{{ initials }}</div>
         <div>
           <div class="header-title">Espace collaborateur</div>
-          <div class="header-user">Nom Prénom · Agence Montreuil Valmy</div>
+          <div class="header-user">{{ userName }} · {{ agency }}</div>
         </div>
       </div>
-      <div class="header-actions" style="display: flex; gap: 4px">
-        <button class="header-action">
-          <img src="/icons/search.svg" alt="Search" />
+      <div class="header-actions">
+        <button class="header-action" aria-label="Rechercher">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M11 4a7 7 0 1 0 4.5 12.4L20 21M11 4a7 7 0 0 1 7 7" />
+          </svg>
         </button>
-        <button class="header-action">
-          <img src="/icons/notifications.svg" alt="Notifications" />
+        <button class="header-action" aria-label="Notifications">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 8a6 6 0 1 1 12 0c0 4 1.5 5.5 2 6H4c.5-.5 2-2 2-6zM10 19a2 2 0 0 0 4 0" />
+          </svg>
         </button>
         <button
           class="header-action"
           (click)="themeService.toggleTheme()"
-          [title]="themeService.isDarkMode() ? 'Passer au clair' : 'Passer au sombre'"
+          [attr.aria-label]="themeService.isDarkMode() ? 'Passer au clair' : 'Passer au sombre'"
         >
           @if (themeService.isDarkMode()) {
-            <span role="img" aria-label="soleil" style="display: flex">
-              <img src="/icons/mode-light.svg" alt="Soleil" />
-            </span>
+            <img src="/icons/mode-light.svg" alt="" aria-hidden="true" />
           } @else {
-            <span role="img" aria-label="lune" style="display: flex">
-              <img src="/icons/mode-night.svg" alt="Lune" />
-            </span>
+            <img src="/icons/mode-night.svg" alt="" aria-hidden="true" />
           }
         </button>
       </div>

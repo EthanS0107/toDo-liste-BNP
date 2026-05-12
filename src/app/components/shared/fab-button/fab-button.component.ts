@@ -7,7 +7,10 @@ import { RouterLink } from '@angular/router';
   imports: [RouterLink],
   template: `
     <a class="fab" [routerLink]="link()" [attr.aria-label]="label()">
-      <span class="fab-icon" aria-hidden="true">+</span>
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"
+           stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <path d="M7 2v10M2 7h10" />
+      </svg>
       <span class="fab-label">{{ label() }}</span>
     </a>
   `,

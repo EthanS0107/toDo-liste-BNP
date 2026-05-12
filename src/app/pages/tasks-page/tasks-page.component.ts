@@ -8,6 +8,8 @@ import { TaskFilterComponent } from '../../components/task-filter/task-filter.co
 import { DailyHeaderComponent } from '../../components/shared/daily-header/daily-header.component';
 import { CategoryTabsComponent } from '../../components/category-tabs/category-tabs.component';
 import { EmptyStateComponent } from '../../components/ui/empty-state/empty-state.component';
+import { FabButtonComponent } from '../../components/shared/fab-button/fab-button.component';
+import { BottomNavComponent } from '../../components/shared/bottom-nav/bottom-nav.component';
 import { TaskStatus, Task, TaskFilterState } from '../../models/task.model';
 import { StatsSkeletonComponent } from '../../components/dashboard/stats-skeleton.component';
 import { TaskSkeletonComponent } from '../../components/task-list/task-skeleton.component';
@@ -26,6 +28,8 @@ import { CommonModule } from '@angular/common';
     DailyHeaderComponent,
     CategoryTabsComponent,
     EmptyStateComponent,
+    FabButtonComponent,
+    BottomNavComponent,
     RouterLink,
   ],
   template: `
@@ -86,6 +90,9 @@ import { CommonModule } from '@angular/common';
         <app-task-skeleton />
       }
     </div>
+
+    <app-fab-button />
+    <app-bottom-nav />
   `,
   styleUrls: ['./tasks-page.component.css'],
 })

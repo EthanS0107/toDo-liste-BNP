@@ -27,18 +27,32 @@ export const DEFAULT_PRIORITIES: Priority[] = [
   { id: 'high', name: 'Haute' },
 ];
 
-// Libellés pour les priorités
+// Libellés pour les priorités (forme complète)
 export const PRIORITY_LABELS: Record<TaskPriority, string> = {
   low: 'Faible',
   medium: 'Moyenne',
   high: 'Haute',
 };
 
+// Libellés courts (P1/P2/P3) — utilisés dans les badges
+export const PRIORITY_SHORT_LABELS: Record<TaskPriority, string> = {
+  high: 'P1',
+  medium: 'P2',
+  low: 'P3',
+};
+
 // Libellés pour les statuts
 export const STATUS_LABELS: Record<TaskStatus, string> = {
   todo: 'À faire',
   'in-progress': 'En cours',
-  done: 'Terminé',
+  done: 'Terminée',
+};
+
+// Icônes ASCII de statut
+export const STATUS_ICONS: Record<TaskStatus, string> = {
+  todo: '○',
+  'in-progress': '◐',
+  done: '●',
 };
 
 // Statut suivant pour chaque statut

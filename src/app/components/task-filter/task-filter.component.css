@@ -1,53 +1,49 @@
 .filter-container {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  padding: 4px 16px 14px;
+  gap: 8px;
+  padding: 0 16px 12px;
   background: rgb(244, 245, 243);
   font-family: 'IBM Plex Sans', 'Inter', system-ui, sans-serif;
 }
 
-.filter-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.filter-label {
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.6px;
-  color: rgb(108, 121, 113);
-  text-transform: uppercase;
-  flex-shrink: 0;
-  min-width: 56px;
-}
-
-/* Priority chips */
-.filter-buttons {
+/* PRIORITY ROW */
+.priority-row {
   display: flex;
   align-items: center;
   gap: 6px;
-  flex-wrap: wrap;
+}
+
+.filter-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.6px;
+  color: rgb(122, 134, 128);
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+
+.filter-buttons {
+  display: flex;
+  gap: 4px;
   flex: 1;
+  justify-content: flex-end;
 }
 
 .chip {
-  height: 30px;
-  padding: 0 12px;
-  border: 1px solid rgb(221, 225, 220);
-  border-radius: 6px;
-  background: #ffffff;
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.2px;
-  color: rgb(15, 26, 20);
+  appearance: none;
   cursor: pointer;
-  transition:
-    background 0.18s ease,
-    border-color 0.18s ease,
-    color 0.18s ease;
-  font-family: inherit;
+  padding: 4px 8px;
+  border-radius: 3px;
+  background: #fff;
+  border: 1px solid rgb(221, 225, 220);
+  color: rgb(66, 81, 74);
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  line-height: 1.2;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
 }
 
 .chip:hover {
@@ -57,68 +53,65 @@
 .chip.active {
   background: rgb(15, 26, 20);
   border-color: rgb(15, 26, 20);
-  color: #ffffff;
+  color: #fff;
 }
 
-.chip-dark.active {
-  background: rgb(15, 26, 20);
-  border-color: rgb(15, 26, 20);
-  color: #ffffff;
-}
-
-/* Sort segmented control */
+/* SORT SEGMENTED */
 .sort-segment {
-  display: flex;
-  align-items: stretch;
-  flex: 1;
-  background: #ffffff;
+  display: grid;
+  grid-template-columns: auto 1fr 1fr 1fr 1fr;
+  background: #fff;
   border: 1px solid rgb(221, 225, 220);
-  border-radius: 8px;
-  padding: 3px;
-  gap: 2px;
+  border-radius: 4px;
   overflow: hidden;
 }
 
-.segment-btn {
-  flex: 1;
-  height: 30px;
-  padding: 0 8px;
-  border: none;
-  border-radius: 6px;
-  background: transparent;
-  font-size: 12px;
-  font-weight: 500;
-  color: rgb(66, 81, 74);
-  cursor: pointer;
-  transition:
-    background 0.18s ease,
-    color 0.18s ease;
-  font-family: inherit;
-  white-space: nowrap;
+.sort-label {
+  padding: 0 12px;
+  display: inline-flex;
+  align-items: center;
+  font-size: 10px;
+  font-weight: 600;
+  color: rgb(122, 134, 128);
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  border-right: 1px solid rgb(221, 225, 220);
 }
 
-.segment-btn:hover {
-  color: rgb(15, 26, 20);
+.segment-btn {
+  appearance: none;
+  cursor: pointer;
+  padding: 7px 4px;
+  background: transparent;
+  color: rgb(66, 81, 74);
+  border: none;
+  border-right: 1px solid rgb(221, 225, 220);
+  font-family: 'IBM Plex Sans', 'Inter', system-ui, sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.segment-btn:last-child {
+  border-right: none;
+}
+
+.segment-btn:hover:not(.active) {
+  background: rgb(248, 250, 247);
 }
 
 .segment-btn.active {
-  background: rgb(0, 138, 79);
-  color: #ffffff;
+  background: rgb(15, 107, 74);
+  color: #fff;
   font-weight: 600;
 }
 
 @media (max-width: 360px) {
-  .filter-label {
-    min-width: 50px;
-    font-size: 10px;
-  }
-
   .chip {
-    padding: 0 10px;
-    font-size: 11px;
+    padding: 3px 6px;
+    font-size: 9px;
   }
-
   .segment-btn {
-    font-size: 11px;
+    font-size: 10px;
   }
 }
