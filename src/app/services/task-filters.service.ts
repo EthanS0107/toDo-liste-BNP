@@ -68,12 +68,18 @@ export class TaskFiltersService {
           case 'title':
             return a.title.localeCompare(b.title);
           case 'priority':
-            return (priorityWeight[b.priority] || 0) - (priorityWeight[a.priority] || 0);
+            const weightA = priorityWeight[a.priority] || 0;
+            const weightB = priorityWeight[b.priority] || 0;
+            return weightB - weightA;
           case 'date':
+            const dateA = a.dueDate ? new Date(a.dueDate).getTime() : Infinity;
+            const dateB = b.dueDate ? new Date(b.dueDate).getTime() : Infinity;
+            if (dateA !== dateB) return dateA - dateB;
+            // Fallback to createdAt (newest first) if dueDates are same or missing
             return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
           case 'manual':
           default:
-            return 0; // Conserve l'ordre du store (TaskService)
+            return 0;
         }
       });
     },
