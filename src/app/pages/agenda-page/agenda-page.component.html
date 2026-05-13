@@ -1,0 +1,115 @@
+<div class="agenda-page">
+  <app-page-header>
+    <span title>Agenda</span>
+    <div class="period-selector" actions>
+      <button class="toggle-btn" [class.active]="period() === 'week'" (click)="setPeriod('week')">Semaine</button>
+      <button class="toggle-btn" [class.active]="period() === 'month'" (click)="setPeriod('month')">Mois</button>
+    </div>
+  </app-page-header>
+
+  <div class="agenda-content">
+    
+    <div *ngIf="overdueTasks().length > 0" class="overdue-section">
+      <h3 class="overdue-title">En retard</h3>
+      <div class="task-list">
+        <app-task-card
+          *ngFor="let task of overdueTasks()"
+          [task]="task"
+          [category]="getCategory(task.categoryId)"
+          (edited)="onTaskEdited($event)"
+          (deleted)="onTaskDeleted($event)"
+          (statusChanged)="onTaskStatusChanged($event)"
+          class="overdue-task"
+        ></app-task-card>
+      </div>
+    </div>
+
+    <!-- SEMAINE -->
+    <div class="timeline" *ngIf="period() === 'week'">
+      <p class="timeline-summary">
+        Aperçu des 7 prochains jours
+      </p>
+
+      <div *ngFor="let day of timeline()" class="day-group">
+        <div class="day-header" [class.is-today]="day.isToday">
+          <span class="day-date">{{ day.date | date:'EEEE d MMMM' }}</span>
+          <span class="day-badge" *ngIf="day.isToday">Aujourd'hui</span>
+        </div>
+
+        <div class="day-content" (click)="day.tasks.length === 0 ? addTaskForDate(day.date) : null" [class.clickable]="day.tasks.length === 0">
+          <div *ngIf="day.tasks.length === 0" class="empty-day">
+            <span class="empty-text">Aucune tâche prévue. Cliquez pour ajouter.</span>
+          </div>
+          
+          <div *ngIf="day.tasks.length > 0" class="task-list">
+            <app-task-card
+              *ngFor="let task of day.tasks"
+              [task]="task"
+              [category]="getCategory(task.categoryId)"
+              (edited)="onTaskEdited($event)"
+              (deleted)="onTaskDeleted($event)"
+              (statusChanged)="onTaskStatusChanged($event)"
+            ></app-task-card>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MOIS -->
+    <div class="calendar-view" *ngIf="period() === 'month'">
+      <div class="calendar-header">
+        <button class="nav-btn" (click)="previousMonth()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+        </button>
+        <h3 class="calendar-month">{{ currentMonthDate() | date:'MMMM yyyy' }}</h3>
+        <button class="nav-btn" (click)="nextMonth()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+        </button>
+      </div>
+
+      <div class="calendar-grid">
+        <div class="weekday-header">Lun</div>
+        <div class="weekday-header">Mar</div>
+        <div class="weekday-header">Mer</div>
+        <div class="weekday-header">Jeu</div>
+        <div class="weekday-header">Ven</div>
+        <div class="weekday-header">Sam</div>
+        <div class="weekday-header">Dim</div>
+
+        <div *ngFor="let day of calendarGrid()" 
+             class="calendar-cell"
+             [class.not-current-month]="!day.isCurrentMonth"
+             [class.is-today]="day.isToday"
+             [class.is-selected]="selectedDate() && day.date.getTime() === selectedDate()!.getTime()"
+             (click)="selectDate(day.date)">
+          <span class="day-number">{{ day.date | date:'d' }}</span>
+          <div class="task-dots" *ngIf="day.tasks.length > 0">
+            <span class="dot" *ngFor="let t of day.tasks" [class.done]="t.status === 'done'"></span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="selected-day-tasks" *ngIf="selectedDate()">
+        <h4 class="selected-day-title">Tâches du {{ selectedDate() | date:'EEEE d MMMM' }}</h4>
+        
+        <div class="day-content" (click)="selectedDayTasks().length === 0 ? addTaskForDate(selectedDate()!) : null" [class.clickable]="selectedDayTasks().length === 0">
+          <div *ngIf="selectedDayTasks().length === 0" class="empty-day">
+            <span class="empty-text">Aucune tâche prévue. Cliquez pour ajouter.</span>
+          </div>
+          
+          <div *ngIf="selectedDayTasks().length > 0" class="task-list">
+            <app-task-card
+              *ngFor="let task of selectedDayTasks()"
+              [task]="task"
+              [category]="getCategory(task.categoryId)"
+              (edited)="onTaskEdited($event)"
+              (deleted)="onTaskDeleted($event)"
+              (statusChanged)="onTaskStatusChanged($event)"
+            ></app-task-card>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
