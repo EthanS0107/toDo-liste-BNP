@@ -1,5 +1,6 @@
 import { Component, input, computed, inject } from '@angular/core';
 import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 import { TaskService } from '../../services/task.service';
 import { Task } from '../../models/task.model';
 import { TaskFormComponent } from '../../components/task-form/task-form.component';
@@ -17,7 +18,7 @@ import { PageHeader } from '../../components/shared/page-header/page-header';
         [editMode]="isEditMode()"
         [categories]="taskService.categories()"
         (submitted)="onSubmit($event)"
-        (cancelled)="router.navigate(['/tasks'])"
+        (cancelled)="goBack()"
       />
     </div>
   `,
@@ -25,11 +26,34 @@ import { PageHeader } from '../../components/shared/page-header/page-header';
 })
 export class TaskFormPage {
   id = input<string>();
+  date = input<string>();
   isEditMode = computed(() => !!this.id());
-  task = computed(() => (this.id() ? (this.taskService.getTaskById(this.id()!) ?? null) : null));
+  task = computed(() => {
+    if (this.id()) {
+      return this.taskService.getTaskById(this.id()!) ?? null;
+    }
+    if (this.date()) {
+      return {
+        title: '',
+        description: '',
+        status: 'todo',
+        priority: 'medium',
+        categoryId: '',
+        dueDate: new Date(this.date()!),
+        createdAt: new Date(),
+        updatedAt: new Date()
+      } as Task;
+    }
+    return null;
+  });
 
   protected taskService = inject(TaskService);
   protected router = inject(Router);
+  protected location = inject(Location);
+
+  goBack() {
+    this.location.back();
+  }
 
   onSubmit(data: Partial<Task>) {
     const currentId = this.id();
@@ -38,6 +62,6 @@ export class TaskFormPage {
     } else {
       this.taskService.addTask(data as Omit<Task, 'id' | 'createdAt' | 'updatedAt'>);
     }
-    this.router.navigate(['/tasks']);
+    this.goBack();
   }
 }
