@@ -20,7 +20,7 @@ export const routes: Routes = [
 
   {
     path: 'profile',
-    loadComponent: () => import('./pages/tasks-page/tasks-page.component').then(m => m.TasksPage)
+    loadComponent: () => import('./pages/profile-page/profile-page.component').then(m => m.ProfilePageComponent)
   },
 
   {
