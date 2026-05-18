@@ -1,0 +1,92 @@
+<div class="profile-page-container">
+  <app-page-header>
+    <span title>Profil</span>
+  </app-page-header>
+
+  <section class="section-block">
+    <h3 class="section-title">Productivité</h3>
+    
+    <div class="stats-grid">
+      <div class="stat-card">
+        <span class="stat-label">Terminées cette semaine</span>
+        <span class="stat-value text-primary">{{ taskService.stats().completedThisWeek }}</span>
+      </div>
+      
+      <div class="stat-card">
+        <span class="stat-label">Total terminées</span>
+        <span class="stat-value text-success">{{ taskService.stats().done }}</span>
+      </div>
+
+      <div class="stat-card full-width">
+        <span class="stat-label">Tâches terminées par catégorie</span>
+        <div class="category-stats-list">
+          <div *ngIf="tasksPerCategory().length === 0" class="empty-stats">
+            Aucune tâche terminée.
+          </div>
+          <div *ngFor="let item of tasksPerCategory()" class="category-stat-item">
+            <div class="favorite-category">
+              <span class="category-dot" [style.backgroundColor]="item.category.color"></span>
+              <span class="category-name">{{ item.category.name }}</span>
+            </div>
+            <span class="category-count">{{ item.count }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-block">
+    <h3 class="section-title">Préférences</h3>
+    
+    <div class="settings-list">
+      <!-- Langue -->
+      <button class="setting-item" (click)="changeLanguage()">
+        <div class="setting-info">
+          <span class="setting-name">Langue</span>
+          <span class="setting-desc">Changer la langue ({{ currentLanguage() }})</span>
+        </div>
+        <div class="setting-action-text text-primary">
+          {{ currentLanguage() }}
+        </div>
+      </button>
+
+      <!-- Thème -->
+      <button class="setting-item" (click)="themeService.toggleTheme()">
+        <div class="setting-info">
+          <span class="setting-name">Mode sombre</span>
+          <span class="setting-desc">Adapter l'interface</span>
+        </div>
+        <div 
+          class="toggle-switch"
+          [class.active]="themeService.isDarkMode()">
+          <span class="toggle-knob"></span>
+        </div>
+      </button>
+
+      <!-- Réinitialisation -->
+      <button class="setting-item danger-item" (click)="openResetModal()">
+        <div class="setting-info">
+          <span class="setting-name text-danger">Réinitialiser l'application</span>
+          <span class="setting-desc">Supprimer toutes les données</span>
+        </div>
+      </button>
+    </div>
+  </section>
+
+  <!-- Modal de confirmation -->
+  <div class="modal-overlay" *ngIf="showResetModal()" (click)="cancelReset()">
+    <div class="modal-container" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3 class="modal-title">Réinitialiser l'application ?</h3>
+      </div>
+      <div class="modal-body">
+        <p>Êtes-vous sûr de vouloir supprimer toutes vos tâches et préférences ?</p>
+        <p class="modal-warning">Cette action est définitive et irréversible.</p>
+      </div>
+      <div class="modal-actions">
+        <button class="modal-btn btn-cancel" (click)="cancelReset()">Annuler</button>
+        <button class="modal-btn btn-confirm text-danger" (click)="confirmReset()">Réinitialiser</button>
+      </div>
+    </div>
+  </div>
+</div>
